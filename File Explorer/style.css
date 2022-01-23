@@ -175,3 +175,19 @@
     height: 100%;
     width: 100%;
 }
+
+[purpose=download]{
+    display: none;
+}
+
+/* input[action=upload]{
+    display: none;
+} */
+
+#win-actions span {
+    cursor: pointer;
+}
+
+#win-actions span:hover {
+    color: blue;
+}
