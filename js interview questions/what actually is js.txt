@@ -1,0 +1,5 @@
+js runs under js runtime enviroment.
+
+js just provides the logics and functionalitites are provided by the enviroment i.e. browser or node js.ides the logic and all 
+
+Brendan Eich
