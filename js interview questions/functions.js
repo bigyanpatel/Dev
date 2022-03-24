@@ -56,20 +56,20 @@
 
 //Q.
 
-var a = 10;
-console.log("line number 60", a);
+// var a = 10;
+// console.log("line number 60", a);
 
-function fn(){
-    console.log("line number 63", a);
-    var a = 20;
-    a++;
-    console.log("line number 66", a);
-    if(a){
-        var a = 30;
-        a++;
-        console.log("line number 70", a);
-    }
-}
+// function fn(){
+//     console.log("line number 63", a);
+//     var a = 20;
+//     a++;
+//     console.log("line number 66", a);
+//     if(a){
+//         var a = 30;
+//         a++;
+//         console.log("line number 70", a);
+//     }
+// }
 
-fn();
-console.log("line number 75", a);
+// fn();
+// console.log("line number 75", a);
