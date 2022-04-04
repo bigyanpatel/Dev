@@ -1,5 +1,8 @@
 let url = "https://github.com/topics";
 
+// modules used
+//npm i cheerio request 
+
 const request = require("request");
 const cheerio = require("cheerio");
 const getRepospageHtml = require("./repoPage");
