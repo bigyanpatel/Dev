@@ -113,4 +113,3 @@ function questionSolver(page, question, answer){
         })
     })
 }
-// readme
