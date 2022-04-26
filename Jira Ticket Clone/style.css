@@ -112,26 +112,33 @@ body {
 }
 
 .ticket-cont {
-    height: 12rem;
+    height: 14rem;
     width: 17rem;
-    background-color: lightblue;
+    background-color: lightgray;
 }
 
 .ticket-color {
     height: 1rem;
-    background-color: lightcoral;
 }
 
 .ticket-id {
     height: 2rem;
-    background-color: lightcyan;
     padding: 0.4rem;
 }
 
 .task-area {
-    height: calc(100% - 3rem);
-    background-color: lightgray;
+    height: calc(100% - 2rem - 1rem - 2rem);
     padding: 0.4rem;
+    outline: none;
+}
+
+.ticket-lock{
+    height: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1rem;
+    font-size: 1.5rem;
+    color: lightslategrey;
 }
 
 .main-cont {
