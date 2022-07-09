@@ -1,14 +1,14 @@
 import {movies} from './getMovies';
-
 import React, { Component } from 'react'
 
 export default class Banner extends Component {
-  render() {
-    let movie = movies.results[0]
-        // let movie = '';
-    return (
-        <>
-        {   movie === ''?
+    
+    render() {
+        let movie = movies.results[0]
+        // let movie=''
+        return (
+            <>
+            {   movie == ''?
                 <div className="spinner-border text-primary" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>:
@@ -21,7 +21,7 @@ export default class Banner extends Component {
                 {/* </div> */}
                 </div>
             }
-        </>
-    )
-  }
+            </>
+        )
+    }
 }
