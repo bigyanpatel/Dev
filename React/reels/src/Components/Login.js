@@ -26,8 +26,7 @@ import img5 from '../Assets/img5.jpg';
 import { AuthContext } from '../Context/AuthContext';
 
 export default function Login() {
-    const store = useContext(AuthContext);
-    console.log(store)
+    const store = useContext(AuthContext)
   const useStyles = createUseStyles({
     text1:{
         color:'grey',

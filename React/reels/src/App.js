@@ -5,6 +5,7 @@ import Feed from './Components/feed'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import {AuthProvider} from './Context/AuthContext';
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -16,7 +17,6 @@ function App() {
         </Routes>
       </AuthProvider>
     </BrowserRouter>
-    
   );
 }
 
