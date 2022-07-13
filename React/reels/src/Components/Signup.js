@@ -14,9 +14,9 @@ import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { Link, useNavigate } from 'react-router-dom';
+// import { ClassNames } from '@emotion/react';
 import { AuthContext } from '../Context/AuthContext';
 import { database,storage } from '../firebase';
-// import { ClassNames } from '@emotion/react';
 
 export default function Signup() {
   const useStyles = createUseStyles({
