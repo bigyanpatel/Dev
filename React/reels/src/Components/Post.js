@@ -2,6 +2,8 @@ import React, { useState,useEffect } from 'react'
 import {database} from '../firebase';
 import CircularProgress from '@mui/material/CircularProgress';
 import Video from './Video'
+import './Post.css'
+import Avatar from '@mui/material/Avatar';
 
 function Post({userData}) {
     const [posts,setPosts] = useState(null);
@@ -27,7 +29,12 @@ function Post({userData}) {
                     posts.map((post, index) => (
                         <React.Fragment key={index}>
                             <div className="videos">
-                            <Video src={post.pUrl} id={post.pId}/>
+                                <Video src={post.pUrl} id={post.pId}/>
+                                <div className="fa" style={{display:'flex'}}>
+                                    <Avatar src={post.uProfile} />
+                                    <h4>{post.uName}</h4>
+                                </div>
+                                
                             </div>
                         </React.Fragment>
                     ))

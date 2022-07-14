@@ -1,0 +1,33 @@
+.video-container{
+    height: 75vh;
+    border-radius: 20px;
+    background-color: white;
+    overflow: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+}
+
+.video-container::-webkit-scrollbar {
+    display: none;
+}
+
+.videos{
+    position: relative;
+}
+
+.fa{
+    display:flex;
+    width: 15rem;
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    justify-content:flex-start;
+    align-items: center;
+}
+
+.fa h4{
+    display: inline-block;
+    margin: 0;
+    color: white;
+    margin-left: 5%;
+}
