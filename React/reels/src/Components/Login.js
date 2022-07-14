@@ -58,7 +58,7 @@ export default function Login() {
             setLoading(false);
             navigate("/", {replace: true})
         }catch(err){
-            setError(err);
+            setError(err.message);
             setTimeout(()=>{
                 setError('')
             },2000);

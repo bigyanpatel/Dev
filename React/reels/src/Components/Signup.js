@@ -83,10 +83,11 @@ export default function Signup() {
                 navigate("/", {replace: true});
             }
     }catch(err){
-      setError(err);
+      setError(err.message);
         setTimeout(()=>{
             setError('')
-        },2000)
+        },5000)
+        setLoading(false);
     }
   }
 
