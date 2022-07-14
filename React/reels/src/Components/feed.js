@@ -1,9 +1,15 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { AuthContext } from '../Context/AuthContext'
 
-export default function feed() {
+function Feed() {
+  const {logout} = useContext(AuthContext)
   return (
-    <div><h1>
-            Welcome to feeeed!      
-        </h1></div>
+    <div>
+      <h1>Welcome to feeeed!</h1>
+      <button onClick={logout}>Logout</button>
+        
+    </div>
   )
 }
+
+export default Feed
