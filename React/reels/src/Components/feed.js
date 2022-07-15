@@ -7,13 +7,13 @@ import Navbar from './Navbar'
 
 function Feed() {
   const {user} = useContext(AuthContext)
-    const [userData,setUserData] = useState('')
-    useEffect(()=>{
-        const unsub = database.users.doc(user.uid).onSnapshot((snapshot)=>{
-            setUserData(snapshot.data())
-        })
-        return ()=> {unsub()}
-    },[user])
+  const [userData,setUserData] = useState('')
+  useEffect(()=>{
+      const unsub = database.users.doc(user.uid).onSnapshot((snapshot)=>{
+          setUserData(snapshot.data())
+      })
+      return ()=> {unsub()}
+  },[user])
   return (
     <>
         <Navbar userData={userData}/>

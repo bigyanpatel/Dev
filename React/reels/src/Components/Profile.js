@@ -1,20 +1,23 @@
-import React, { useState,useEffect } from 'react'
-import {database} from '../firebase';
-import CircularProgress from '@mui/material/CircularProgress';
-import Video from './Video'
-import Like from './like'
-import './Post.css'
-import Avatar from '@mui/material/Avatar';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import React,{useEffect,useState} from 'react'
+import {useParams} from 'react-router-dom'
+import { database } from '../firebase'
+import { CircularProgress } from '@mui/material';
+import Navbar from './Navbar' 
+import Typography from '@mui/material/Typography';
+// import Avatar from '@mui/material/Avatar';
+// import Like from './like'
+// import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import Dialog from '@mui/material/Dialog';
 import Card from '@mui/material/Card';
-import Typography from '@mui/material/Typography';
 import Like2 from './Like2';
 import AddComment from './AddComment';
-import Comments from './Comments';
+import Comments from './Comments'
+import './Profile.css'
 
-function Post({userData}) {
-    const [posts,setPosts] = useState(null);
+function Profile() {
+    const {id} = useParams()
+    const [userData,setUserdata] = useState(null)
+    const [posts,setPosts] = useState(null)
     const [open, setOpen] = useState(null);
 
     const handleClickOpen = (id) => {
@@ -24,6 +27,11 @@ function Post({userData}) {
     const handleClose = () => {
         setOpen(null);
     };
+    useEffect(()=>{
+        database.users.doc(id).onSnapshot((snap)=>{
+            setUserdata(snap.data())
+        })
+    },[id])
 
     useEffect(()=>{
         let parr = []
@@ -36,24 +44,38 @@ function Post({userData}) {
             setPosts(parr)
         })
         return unsub
-    },[])
-  return (
-    <div>
+    },[userData])
+    return (
+        <>
         {
-            posts==null || userData==null ? <CircularProgress /> :
-            <div className="video-container">
-                {
-                    posts.map((post, index) => (
-                        <React.Fragment key={index}>
-                            <div className="videos">
-                                <Video src={post.pUrl} id={post.pId}/>
-                                <div className="fa" style={{display:'flex'}}>
-                                    <Avatar src={post.uProfile} />
-                                    <h4>{post.uName}</h4>
-                                </div>
-                                <Like userData={userData} postData={post}/>
-                                <ChatBubbleIcon className="chat-styling" onClick={()=>handleClickOpen(post.pId)}/>
-                                <Dialog
+            posts==null || userData==null ? <CircularProgress/> : 
+            <>
+                <Navbar userData={userData}/>
+                <div className="spacer"></div>
+                <div className="container">
+                    <div className="upper-part">
+                        <div className="profile-img">
+                            <img  alt='' src={userData.profileUrl}/>
+                        </div>
+                        <div className="info">
+                            <Typography variant="h5">
+                                Email : {userData.email}
+                            </Typography>
+                            <Typography variant="h6">
+                                Posts : {userData?.postIds?.length}
+                            </Typography>
+                        </div>
+                    </div>
+                    <hr style={{marginTop:'2rem',marginBottom:'2rem'}}/>
+                    <div className="profile-videos">
+                    {
+                        posts.map((post,index)=>(
+                            <React.Fragment key={index}>
+                                <div className="videos">
+                                    <video muted="muted" onClick={()=>handleClickOpen(post.pId)}>
+                                        <source src={post.pUrl}/>
+                                    </video>
+                                    <Dialog
                                     open={open===post.pId}
                                     onClose={handleClose}
                                     aria-labelledby="alert-dialog-title"
@@ -81,15 +103,16 @@ function Post({userData}) {
                                         </div>
                                     </div>
                                 </Dialog>
-                            </div>
-                        </React.Fragment>
-                    ))
-                }
-            </div>
+                                </div>
+                            </React.Fragment>
+                        ))
+                    }
+                </div>
+                </div>
+            </>
         }
-
-    </div>
-  )
+        </>
+    )
 }
 
-export default Post
+export default Profile
