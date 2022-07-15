@@ -11,6 +11,7 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import Like2 from './Like2';
 import AddComment from './AddComment';
+import Comments from './Comments';
 
 function Post({userData}) {
     const [posts,setPosts] = useState(null);
@@ -68,7 +69,7 @@ function Post({userData}) {
                                         </div>
                                         <div className="comment-modal">
                                             <Card className="card1" style={{padding:'1rem'}}>
-                                                <h1>Comment Section</h1>
+                                                <Comments postData={post}/>
                                             </Card>
                                             <Card variant="outlined" className="card2">
                                                 <Typography style={{padding:'0.4rem'}}>{post.likes.length===0?'Liked by nobody':`Liked by ${post.likes.length} users`}</Typography>
