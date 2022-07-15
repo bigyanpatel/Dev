@@ -39,12 +39,30 @@ function Profile() {
             parr = []
             querySnapshot.forEach((doc)=>{
                 let data = {...doc.data(),postId:doc.id}
-                parr.push(data)
+                if(data.userId === id){
+                    parr.push(data)
+                }
+                    
             })
             setPosts(parr)
         })
         return unsub
     },[userData])
+
+    // useEffect(()=>{
+    //     if(userData!=null){
+    //         async function fData(){
+    //             let parr = [];
+    //             for(let i=0;i<userData?.postIds?.length;i++){
+    //                 let postData = await database.posts.doc(userData.postIds[i]).get()
+    //                 parr.push({...postData.data(),postId:postData.id})
+    //             } 
+    //             setPosts(parr)
+    //         }
+    //         fData();
+    //     }
+    // },[userData])
+
     return (
         <>
         {
@@ -62,7 +80,7 @@ function Profile() {
                                 Email : {userData.email}
                             </Typography>
                             <Typography variant="h6">
-                                Posts : {userData?.postIds?.length}
+                                Posts : {userData?.postIds?.length > 0 ? userData?.postIds?.length : 0}
                             </Typography>
                         </div>
                     </div>
