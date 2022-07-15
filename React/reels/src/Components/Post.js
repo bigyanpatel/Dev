@@ -37,6 +37,31 @@ function Post({userData}) {
         })
         return unsub
     },[])
+
+    const callback = (entries) => {
+        entries.forEach((entry)=>{
+            let ele = entry.target.childNodes[0]
+            ele.play().then(()=>{
+                if(!ele.paused && !entry.isIntersecting){
+                    ele.pause()
+                    ele.muted = true;
+                    ele.currentTime = 0;
+                }
+            })
+        })
+    }
+
+    let observer = new IntersectionObserver(callback, {threshold:0.6});
+    useEffect(()=>{
+        const elements = document.querySelectorAll(".videos")
+        elements.forEach((element)=>{
+            observer.observe(element)
+        })
+        return ()=>{
+            observer.disconnect();
+        }
+    },[posts])
+
   return (
     <div>
         {
@@ -63,7 +88,7 @@ function Post({userData}) {
                                 >
                                     <div className="modal-container">
                                         <div className="video-modal">
-                                            <video autoPlay={true} muted="muted" controls>
+                                            <video autoPlay={true}>
                                                 <source src={post.pUrl}/>
                                             </video>
                                         </div>
