@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 import {database} from '../firebase';
 import CircularProgress from '@mui/material/CircularProgress';
 import Video from './Video'
+import Like from './like'
 import './Post.css'
 import Avatar from '@mui/material/Avatar';
 
@@ -34,7 +35,7 @@ function Post({userData}) {
                                     <Avatar src={post.uProfile} />
                                     <h4>{post.uName}</h4>
                                 </div>
-                                
+                                <Like userData={userData} postData={post}/>
                             </div>
                         </React.Fragment>
                     ))
