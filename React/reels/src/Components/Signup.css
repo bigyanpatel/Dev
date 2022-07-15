@@ -20,6 +20,15 @@
     width: 15vw;
 }
 
+@media only screen and (max-width:1000px){
+    .signupCard{
+        width: 275px;
+    }
+    .insta-logo img{
+        width: 35%;
+    }
+}
+
 @media only screen and (max-width:620px){
     .signupCard{
         width: 60%;

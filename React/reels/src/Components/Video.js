@@ -7,19 +7,16 @@ function Video(props) {
       e.preventDefault();
       e.target.muted = !e.target.muted
   }
-
   const handleScroll = (e) => {
-    let next = ReactDOM.findDOMNode(e.target).parentNode.nextSibling
-    if(next){
-        next.scrollIntoView()
-        e.target.muted = true
-    }
-}
-
+      let next = ReactDOM.findDOMNode(e.target).parentNode.nextSibling
+      if(next){
+          next.scrollIntoView()
+          e.target.muted = true
+      }
+  }
   return (
-    <video src={props.src} onEnded={handleScroll} className='videos-styling' id={props.id} onClick={handleClick} muted="muted" controls>
-
-    </video>
+      <video src={props.src} onEnded={handleScroll} className="videos-styling" id={props.id} onClick={handleClick} muted="muted" controls>
+      </video>
   )
 }
 
