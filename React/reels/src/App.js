@@ -4,12 +4,12 @@ import Login from './Components/Login'
 import Feed from './Components/Feed'
 import Profile from './Components/Profile'
 import PrivateRoute from './Components/PrivateRoute'
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {HashRouter, Route, Routes} from 'react-router-dom'
 import {AuthProvider} from './Context/AuthContext'
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AuthProvider>
         <Routes>
           <Route path='/signup' element={<Signup/>}/>
@@ -32,7 +32,7 @@ function App() {
           /> 
         </Routes>
       </AuthProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
