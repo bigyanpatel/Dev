@@ -100,7 +100,7 @@ export default function Signup() {
           </div>
           <CardContent>
               <Typography className={classes.text1} variant="subtitle1">
-                  Sign up to see photos and videos from your friends
+                  Sign up to see photos and videos from your friends... GoodLuck!!
               </Typography>
               {error!== '' && <Alert severity="error">{error}</Alert>}
               <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth={true} margin="dense" size="small"  value={email} onChange={(e)=>setEmail(e.target.value)}/>
