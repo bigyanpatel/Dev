@@ -32,6 +32,11 @@ function Profile() {
             setUserdata(snap.data())
         })
     },[id])
+    
+    const handleClick = (e) => {
+        e.preventDefault();
+        e.target.muted = !e.target.muted
+    }
 
     useEffect(()=>{
         let parr = []
@@ -103,7 +108,7 @@ function Profile() {
                                 >
                                     <div className="modal-container">
                                         <div className="video-modal">
-                                            <video autoPlay={true} muted="muted" controls>
+                                            <video autoPlay={true} muted="muted" onClick={handleClick} controls>
                                                 <source src={post.pUrl}/>
                                             </video>
                                         </div>

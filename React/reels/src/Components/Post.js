@@ -19,6 +19,8 @@ function Post({userData}) {
 
     const handleClickOpen = (id) => {
         setOpen(id);
+        let x = document.getElementById(id);
+        x.pause();
     };
 
     const handleClose = () => {
@@ -68,8 +70,9 @@ function Post({userData}) {
             posts==null || userData==null ? <CircularProgress /> :
             <div className="video-container">
                 {
-                    posts.map((post, index) => (
+                    posts.map((post,index)=>(
                         <React.Fragment key={index}>
+                            {console.log(post)}
                             <div className="videos">
                                 <Video src={post.pUrl} id={post.pId}/>
                                 <div className="fa" style={{display:'flex'}}>
@@ -79,7 +82,7 @@ function Post({userData}) {
                                 <Like userData={userData} postData={post}/>
                                 <ChatBubbleIcon className="chat-styling" onClick={()=>handleClickOpen(post.pId)}/>
                                 <Dialog
-                                    open={open===post.pId}
+                                    open={open==post.pId}
                                     onClose={handleClose}
                                     aria-labelledby="alert-dialog-title"
                                     aria-describedby="alert-dialog-description"
@@ -88,16 +91,16 @@ function Post({userData}) {
                                 >
                                     <div className="modal-container">
                                         <div className="video-modal">
-                                            <video autoPlay={true}>
+                                            <video autoPlay={true} muted="muted" controls>
                                                 <source src={post.pUrl}/>
                                             </video>
                                         </div>
                                         <div className="comment-modal">
-                                            <Card className="card1" style={{padding:'1rem', overflow:'scroll', scrollbarWidth:'none'}}>
-                                                <Comments postData={post}/>
-                                            </Card>
+                                        <Card className="card1" style={{padding:'1rem'}}>
+                                            <Comments postData={post}/>
+                                        </Card>
                                             <Card variant="outlined" className="card2">
-                                                <Typography style={{padding:'0.4rem'}}>{post.likes.length===0?'Liked by nobody':`Liked by ${post.likes.length} users`}</Typography>
+                                                <Typography style={{padding:'0.4rem'}}>{post.likes.length==0?'Liked by nobody':`Liked by ${post.likes.length} users`}</Typography>
                                                 <div style={{display:'flex'}}>
                                                     <Like2 postData={post} userData={userData} style={{display:'flex',alignItems:'center',justifyContent:'center'}}/>
                                                     <AddComment style={{display:'flex',alignItems:'center',justifyContent:'center'}} userData={userData} postData={post}/>
@@ -112,7 +115,6 @@ function Post({userData}) {
                 }
             </div>
         }
-
     </div>
   )
 }
