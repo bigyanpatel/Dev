@@ -41,9 +41,13 @@ export class SlackService {
     }
 
     initSlackCommand(boltApp: any): void {
-        boltApp.command('/hello', async({ ack,respond }) => {
+        boltApp.command('/hello', async({ command,ack,respond }) => {
             await ack();
-            await respond("Hello World!")
+            await respond(`Hey, ${command.user_name} 👋`)
+        });
+        boltApp.command('/repo', async({ command,ack,respond}) => {
+            await ack();
+            await respond(`User is trying to ${command.text}`);
         });
     } 
 
