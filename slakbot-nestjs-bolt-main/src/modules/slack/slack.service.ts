@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from 'src/shared/config.service';
 import { WebClient, WebAPICallResult, ErrorCode} from '@slack/web-api';
 import { RollbarHandler } from 'nestjs-rollbar';
+import axios from "axios";
 
 @Injectable()
 export class SlackService {
@@ -41,13 +42,19 @@ export class SlackService {
     }
 
     initSlackCommand(boltApp: any): void {
-        boltApp.command('/hello', async({ command,ack,respond }) => {
+        
+        boltApp.command('/hello', async({command,ack,respond}) => {
             await ack();
-            await respond(`Hey, ${command.user_name} 👋`)
+            await respond("Hii👋");
         });
-        boltApp.command('/repo', async({ command,ack,respond}) => {
+        boltApp.command('/repo', async({command,ack,respond}) => {
             await ack();
-            await respond(`User is trying to ${command.text}`);
+            if(command.text == 'connect'){
+                await respond('User is tring to connect Github');
+            } else if(command.text.includes("create ")){
+                await respond(`User is trying to create a repo`);
+            }
+            
         });
     } 
 

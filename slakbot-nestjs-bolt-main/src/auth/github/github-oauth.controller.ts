@@ -31,6 +31,8 @@ export class GithubOauthController {
 		);
 
 		const { accessToken } = this.jwtAuthService.login(user);
+		
+		process.env.JWT_SECRET = accessToken;
 		res.cookie('jwt', accessToken);
 		return { access_token: accessToken };
 	}

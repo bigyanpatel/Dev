@@ -7,10 +7,12 @@ import { ConfigService } from './shared/config.service';
 import { SlackModule } from './modules/slack/slack.module';
 import { SlackService } from './modules/slack/slack.service';
 import { LoggerModule } from 'nestjs-rollbar';
+import { GithubOauthModule } from './auth/github/github-oauth.module';
+import appConfig from './config/app.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true, load: [appConfig] }),
     LoggerModule.forRoot({
       accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
       environment: process.env.ROLLBAR_ENVIRONMENT,
@@ -18,7 +20,7 @@ import { LoggerModule } from 'nestjs-rollbar';
       captureUnhandledRejections: true,
       ignoreDuplicateErrors: false,
     }),
-    SlackModule,
+    SlackModule, GithubOauthModule
   ],
   controllers: [AppController],
   providers: [

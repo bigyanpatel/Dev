@@ -16,7 +16,8 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy) {
 				// Users can send us the JWT token either by a bearer token in an authorization header...
 				ExtractJwt.fromAuthHeaderAsBearerToken(),
 				// ... or in a cookie named "jwt"
-				(request: Request) => request?.cookies?.jwt,
+				(request: Request) => process.env.JWT_SECRET,
+				
 			]),
 			ignoreExpiration: false,
 			secretOrKey: configService.get<string>('auth.jwt.secret'),
