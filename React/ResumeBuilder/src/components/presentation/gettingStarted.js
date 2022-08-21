@@ -5,6 +5,9 @@ import {skinCodes} from '../../constants/typeCodes';
 
 // import { withRouter } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+
+import { connect } from 'react-redux';
+import {setSkin,updateSkin} from '../../redux/actions/documentActions';
 function GettingStarted(props) {
      let history = useHistory();
      const onChange = async (skinCd) => {
@@ -44,6 +47,19 @@ function GettingStarted(props) {
             </div>
         );
     
+}
+
+const mapStateToProps = (state) => {
+    return{
+        document : state.document
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        setDocument : (skinCd) => dispatch(setSkin(skinCd)),
+        updateDocument : (skinCd) => dispatch(updateSkin(skinCd))
+    }
 }
   
 
