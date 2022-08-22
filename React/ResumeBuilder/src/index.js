@@ -15,12 +15,12 @@ import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAk-Bh29rr2fYhxttBgJVhL8ONLLMVMtvI",
-  authDomain: "resume-builder-25a00.firebaseapp.com",
-  projectId: "resume-builder-25a00",
-  storageBucket: "resume-builder-25a00.appspot.com",
-  messagingSenderId: "1060965392107",
-  appId: "1:1060965392107:web:ac44803217200905d2e8ae"
+  apiKey: "AIzaSyDEi1tx_3mtybPBFUUO-F3SHTN_eniDQ6I",
+  authDomain: "resume-builder-c6195.firebaseapp.com",
+  projectId: "resume-builder-c6195",
+  storageBucket: "resume-builder-c6195.appspot.com",
+  messagingSenderId: "428557407384",
+  appId: "1:428557407384:web:e4982d8274b052b105aced"
 };
 
 firebase.initializeApp(firebaseConfig);
