@@ -1,8 +1,10 @@
 import React,{useState,useEffect} from "react";
-// import { isLoaded } from 'react-redux-firebase'
+import { connect } from "react-redux";
+import { isLoaded } from 'react-redux-firebase'
 // import { connect } from "react-redux";
 // import * as authActions from '../../actions/authActions';
 import { useHistory } from "react-router";
+import * as authActions from '../../redux/actions/authActions';
   function Register(props) {
  
     let history = useHistory();
@@ -15,9 +17,15 @@ import { useHistory } from "react-router";
         setPassword(e.target.value);
       }
    
-  const onSubmit=()=>{
+  const onSubmit=async()=>{
     
-    //  props.register({email:email, password:password})
+    const res = await props.register({email:email, password:password});
+    // if(props.authMine.error==''){
+    //   history.push('/');
+    // }
+    if(props.auth!=null){
+      history.push('/')
+    }
     
   }
 
@@ -25,8 +33,8 @@ import { useHistory } from "react-router";
     return (
       <>
     {/* To save from multiple request */}
-      {/* {!isLoaded(props.auth)?<></>:<>
-        {props.authMine.loading?<h4 style={{marginTop:'10%',height:'52vh'}}>Patiently Wait...we are resgistering you in</h4>: */}
+      {!isLoaded(props.auth)?<></>:<>
+        {props.authMine.loading?<h4 style={{marginTop:'10%',height:'52vh'}}>Patiently Wait...we are resgistering you in</h4>:
           <div className="container med contact">
             <div className="section funnel-section">
                 <div className="form-card">
@@ -42,8 +50,8 @@ import { useHistory } from "react-router";
                             <div className="effect"><input  type="password" name="password"  value={password||''} onChange={handlePassword}/><span></span>
                             </div>
                         </div>
-                        {props.authMine?.ErrorMessage?.message?<div className="input-group full">
-                                <span className="error-message" >{props.authMine?.ErrorMessage?.message}</span> 
+                        {props.authMine?.error?<div className="input-group full">
+                                <span className="error-message" >{props.authMine?.error}</span> 
                         </div> :<></>}
                         <div className="form-buttons">
                             <button onClick={onSubmit} className="btn hvr-float-shadow" type='button'>Register</button>
@@ -54,12 +62,24 @@ import { useHistory } from "react-router";
 
             </div>
         </div>
-
+      }
         </>
+  }
+  </>
     );
   }
 
+const mapStateToProps = (state) => {
+  return{
+    authMine : state.auth,
+    auth : state.firebase.auth
+  }
+}
 
+const mapDispatchToProps = (dispatch) => {
+  return{
+    register : (userData) => dispatch(authActions.register(userData))
+  }
+}
 
-
-  export default Register
+  export default connect(mapStateToProps,mapDispatchToProps)(Register);
