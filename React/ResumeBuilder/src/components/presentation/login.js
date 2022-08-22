@@ -5,28 +5,33 @@ import update from 'immutability-helper';
 // import * as authActions from '../../actions/authActions';
 // import { isLoaded } from 'react-redux-firebase'
 import { useHistory } from "react-router";
+import { signin } from "../../redux/actions/authActions";
+import { connect } from "react-redux";
 
   function Login(props) {
     console.log(props);
     let history = useHistory();
     const [email,setEmail] = useState('');
     const [password,setPassword]= useState('');
-    // useEffect(() => {
-    //   if(props.auth?.uid){
-    //     history.push('/')
-    //   }
-    // }, [props])
+    useEffect(() => {
+      if(props.auth?.uid){
+        history.push('/')
+      }
+    }, [props])
 const handleEmail= (e)=>{
 setEmail(e.target.value);
 }
 const handlePassword=(e)=>{
   setPassword(e.target.value);
 }
-    const onSubmit=()=>{
+    const onSubmit=async()=>{
     
-      // let obj = {email:email,password:password}
+      let obj = {email:email,password:password}
       // console.log(obj)
-      // props.signIn(obj)
+      await props.signIn(obj)
+      if(props.auth.uid!=null){
+        history.push('/')
+      }
     }
 
 
@@ -49,8 +54,8 @@ const handlePassword=(e)=>{
                             <div className="effect"><input  type="password" name="password"  value={password || ''} onChange={handlePassword}/><span></span>
                             </div>
                         </div>
-                        {props.authMine?.ErrorMessage?.message?<div className="input-group full">
-                                <span className="error-message" >{props.authMine?.ErrorMessage?.message}</span> 
+                        {props.authMine?.error?<div className="input-group full">
+                                <span className="error-message" >{props.authMine?.error}</span> 
                         </div> :<></>}  
                         <div className="form-buttons">
                             <button onClick={onSubmit} className="btn hvr-float-shadow" type='button'>Login</button>
@@ -68,8 +73,19 @@ const handlePassword=(e)=>{
   }
 
 
+  const mapStateToProps = (state) => {
+    return{
+      authMine : state.auth,
+      auth : state.firebase.auth
+    }
+  }
 
+  const mapDispatchToProps = (dispatch) => {
+    return{
+      signIn : (userData) => dispatch(signin(userData))
+    }
+  }
  
 
 
-  export default Login
+  export default connect(mapStateToProps,mapDispatchToProps)(Login)
