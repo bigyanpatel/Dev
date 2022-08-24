@@ -1,0 +1,22 @@
+.topnav {
+    background-color: rgb(241, 239, 239);
+    overflow: hidden;
+  }
+
+  .topnav-brand {
+    float: left;
+    color: #000000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .topnav-profile {
+    float: right;
+    color: #000000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
