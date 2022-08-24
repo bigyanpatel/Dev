@@ -18,14 +18,14 @@ import { connect } from "react-redux";
         history.push('/')
       }
     }, [props])
-const handleEmail= (e)=>{
-setEmail(e.target.value);
-}
-const handlePassword=(e)=>{
-  setPassword(e.target.value);
-}
+    const handleEmail= (e)=>{
+    setEmail(e.target.value);
+    }
+    const handlePassword=(e)=>{
+      setPassword(e.target.value);
+    }
     const onSubmit=async()=>{
-    
+
       let obj = {email:email,password:password}
       // console.log(obj)
       await props.signIn(obj)
@@ -65,10 +65,9 @@ const handlePassword=(e)=>{
 
             </div>
         </div>
-  }
-  </>
-  
-        </>
+      }
+      </>
+      </>
     );
   }
 
