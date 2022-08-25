@@ -32,7 +32,6 @@
   width:'47.5%';
 }
 
-
 @media screen and (max-width: 700px) {
     .column {
       width: 100%;

@@ -1,19 +1,82 @@
 const initialState = [
     {
-        id: 0,
-        name:"Raman Sharma",
-        number:"665123132"
+        id :0,
+        firstName :"Bigyan",
+        lastName : "Patel",
+        designation : "developer",
+        date : "2022-08-02",
+        gender : "Male",
+        phoneNumber : "07978059880",
+        address : "At- JNV Campus, Tarbha",
+        city : "Sonepur",
+        state : "Odisha",
+        zipCode : "767016",
+        country : "India"
     },
     {
-        id: 1,
-        name:"test Sharma",
-        number:"666563132"
+        id :1,
+        firstName :"Bigyan",
+        lastName : "Patel",
+        designation : "developer",
+        date : "2022-08-02",
+        gender : "Male",
+        phoneNumber : "07978059880",
+        address : "At- JNV Campus, Tarbha",
+        city : "Sonepur",
+        state : "Odisha",
+        zipCode : "767016",
+        country : "India"
+    },
+    {
+        id :2,
+        firstName :"Bigyan",
+        lastName : "Patel",
+        designation : "developer",
+        date : "2022-08-02",
+        gender : "Male",
+        phoneNumber : "07978059880",
+        address : "At- JNV Campus, Tarbha",
+        city : "Sonepur",
+        state : "Odisha",
+        zipCode : "767016",
+        country : "India"
+    },
+    {
+        id :3,
+        firstName :"Bigyan",
+        lastName : "Patel",
+        designation : "developer",
+        date : "2022-08-02",
+        gender : "Male",
+        phoneNumber : "07978059880",
+        address : "At- JNV Campus, Tarbha",
+        city : "Sonepur",
+        state : "Odisha",
+        zipCode : "767016",
+        country : "India"
+    },
+    {
+        id :4,
+        firstName :"Bigyan",
+        lastName : "Patel",
+        designation : "developer",
+        date : "2022-08-02",
+        gender : "Male",
+        phoneNumber : "07978059880",
+        address : "At- JNV Campus, Tarbha",
+        city : "Sonepur",
+        state : "Odisha",
+        zipCode : "767016",
+        country : "India"
     }
 ];
 
 
 const employeeReducer = (state = initialState, action) => {
     switch(action.type){
+        case "ADD_EMPLOYEE":
+            state = [...state, action.payload];
+            return state;
         default:
             return state;
     }

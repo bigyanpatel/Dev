@@ -7,9 +7,10 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {toast} from 'react-toastify'
 import './Add.css'
+import {useNavigate} from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { Grid } from '@mui/material';
 
@@ -38,7 +39,12 @@ const Add = () => {
             width:'47.5%'
         }
       });
+
     const classes = useStyles();
+    const navigate = useNavigate();
+    const employees = useSelector((state) => state);
+    const dispatch = useDispatch();
+
     const [firstName,setFirstName] = useState('');
     const [lastName,setLastName] = useState('');
     const [designation,setDesignation] = useState('');
@@ -50,9 +56,7 @@ const Add = () => {
     const [state,setState] = useState('');
     const [zipCode,setZipCode] = useState('');
     const [country,setCountry] = useState('');
-    const [loading,setLoading] = useState(false)
-
-    const employees = useSelector((state) => state);
+    const [loading,setLoading] = useState(false);
 
     const handleClick = (e) =>{
         e.preventDefault();
@@ -60,6 +64,29 @@ const Add = () => {
         if(!firstName || !lastName || !designation || !date || !phoneNumber || !address || !city || !state || !zipCode || !country){
             return toast.warning("Please fill in all the fields!")
         }
+
+        const data = {
+            id: employees[employees.length - 1]. id + 1,
+            firstName,
+            lastName,
+            designation,
+            date,
+            gender,
+            phoneNumber,
+            address,
+            city,
+            state,
+            zipCode,
+            country
+        }
+    
+        dispatch({type:'ADD_EMPLOYEE', payload: data});
+        navigate('/', {replace:'true'});
+        toast.success("Student added Successfully");
+    }
+
+    const handleCancel = (e) => {
+        navigate('/', {replace: true});
     }
 
   return (
@@ -71,14 +98,11 @@ const Add = () => {
                         Image size should be less then 1MB!
                     </Typography>
                     <Avatar className='avatar' alt="Profile Picture" src="" />
-                    {/* <Grid> */}
-                        <TextField className={classes.sidebyside} id="outlined-basic" required label="First Name" variant="outlined" value={firstName} onChange={e => setFirstName(e.target.value)} />
+                    <TextField className={classes.sidebyside} id="outlined-basic" required label="First Name" variant="outlined" value={firstName} onChange={e => setFirstName(e.target.value)} />
 
-                        <TextField className={classes.sidebyside} id="outlined-basic" required label="Last Name" variant="outlined" value={lastName} onChange={e => setLastName(e.target.value)}/>
-                    {/* </Grid> */}
-                        
-        
-                        <TextField className={classes.input} fullWidth={true} id="outlined-basic" required label="Designation" variant="outlined" value={designation} onChange={e => setDesignation(e.target.value)} />   
+                    <TextField className={classes.sidebyside} id="outlined-basic" required label="Last Name" variant="outlined" value={lastName} onChange={e => setLastName(e.target.value)}/>
+                
+                    <TextField className={classes.input} fullWidth={true} id="outlined-basic" required label="Designation" variant="outlined" value={designation} onChange={e => setDesignation(e.target.value)} />   
                 </CardContent>
             </Card>   
             </div>         
@@ -88,7 +112,7 @@ const Add = () => {
     
                         <Grid>
                             <TextField className={classes.sidebyside} type="date" required id="outlined-basic" label="" variant="outlined" value={date} onChange={e => setDate(e.target.value)}/>
-                            <TextField className={classes.sidebyside} required id="outlined-basic" label="Gender" variant="outlined" value={date} onChange={e => setDate(e.target.value)}/>
+                            <TextField className={classes.sidebyside} required id="outlined-basic" label="Gender" variant="outlined" value={gender} onChange={e => setGender(e.target.value)}/>
                         </Grid>
                         
                     
@@ -106,7 +130,7 @@ const Add = () => {
                     <TextField className={classes.sidebyside} fullWidth={true} type="address" required id="outlined-basic" label="Country" variant="outlined" value={country} onChange={e => setCountry(e.target.value)} />
                 </CardContent>
                 <CardActions>
-                    <Button color="primary" fullWidth={true} variant="contained" disabled={loading} onClick={handleClick}> 
+                    <Button color="primary" fullWidth={true} variant="contained" disabled={loading} onClick={handleCancel}> 
                         Cancel
                     </Button>
                     <Button color="primary" fullWidth={true} variant="contained" disabled={loading} onClick={handleClick}> 
