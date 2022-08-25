@@ -11,13 +11,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {Link} from "react-router-dom"
 import { green } from '@mui/material/colors';
 import './Homepage.css'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {toast} from "react-toastify";
 
 const Homepage = () => {
     const employees = useSelector(state => state);
 
-    const handleDelete = () => {
-        
+    const dispatch = useDispatch();
+
+    const handleDelete = (id) => {
+        dispatch({type:"DELETE_EMPLOYEE", payload: id});
+        toast.success("Deleted Sucessfully!");
     }
 
   return (
@@ -32,7 +36,7 @@ const Homepage = () => {
                                     <Avatar></Avatar>
                                     <Typography style={{marginTop:'10px'}}>{employee.firstName}</Typography>                
                                     <Typography style={{marginTop:'10px'}}>{employee.designation}</Typography>
-                                    <DeleteIcon onClick={handleDelete}/>
+                                    <DeleteIcon className='deleteIcon' sx={{display:'flex', alignItems:'center',fontSize: 50, marginBottom:'10px' }} onClick={() => handleDelete(employee.id)}/>
                                 </div>
                             </div>
                         </React.Fragment>
