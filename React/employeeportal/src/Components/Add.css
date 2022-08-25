@@ -12,11 +12,9 @@
     clear: both;
   }
 
-  .avatar{
-    width: 100px;
-  }
 
-.sbs{
+
+/* .sbs{
     display: flex;
     flex-direction: row;
     position: relative;
@@ -27,6 +25,11 @@
     flex: 0 0 auto;
     width: 150px;
     margin: 50%;
+} */
+
+.sidebyside2{
+  margin:'1.25% 1.25%';
+  width:'47.5%';
 }
 
 
