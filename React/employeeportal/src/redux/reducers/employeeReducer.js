@@ -1,6 +1,7 @@
 const initialState = [
     {
         id :0,
+        image: 'blob:http://localhost:3000/79f61c09-a416-47e7-8128-9e39968e2445',
         email: 'bigyan@gmail.com',
         password: 'bigyan',
         firstName :"Bigyan",
@@ -15,62 +16,62 @@ const initialState = [
         zipCode : "767016",
         country : "India"
     },
-    {
-        id :1,
-        firstName :"Bigyan",
-        lastName : "Patel",
-        designation : "developer",
-        date : "2022-08-02",
-        gender : "Male",
-        phoneNumber : "07978059880",
-        address : "At- JNV Campus, Tarbha",
-        city : "Sonepur",
-        state : "Odisha",
-        zipCode : "767016",
-        country : "India"
-    },
-    {
-        id :2,
-        firstName :"Bigyan",
-        lastName : "Patel",
-        designation : "developer",
-        date : "2022-08-02",
-        gender : "Male",
-        phoneNumber : "07978059880",
-        address : "At- JNV Campus, Tarbha",
-        city : "Sonepur",
-        state : "Odisha",
-        zipCode : "767016",
-        country : "India"
-    },
-    {
-        id :3,
-        firstName :"Bigyan",
-        lastName : "Patel",
-        designation : "developer",
-        date : "2022-08-02",
-        gender : "Male",
-        phoneNumber : "07978059880",
-        address : "At- JNV Campus, Tarbha",
-        city : "Sonepur",
-        state : "Odisha",
-        zipCode : "767016",
-        country : "India"
-    },
-    {
-        id :4,
-        firstName :"Bigyan",
-        lastName : "Patel",
-        designation : "developer",
-        date : "2022-08-02",
-        gender : "Male",
-        phoneNumber : "07978059880",
-        address : "At- JNV Campus, Tarbha",
-        city : "Sonepur",
-        state : "Odisha",
-        zipCode : "767016",
-        country : "India"
-    }
+    // {
+    //     id :1,
+    //     firstName :"Bigyan",
+    //     lastName : "Patel",
+    //     designation : "developer",
+    //     date : "2022-08-02",
+    //     gender : "Male",
+    //     phoneNumber : "07978059880",
+    //     address : "At- JNV Campus, Tarbha",
+    //     city : "Sonepur",
+    //     state : "Odisha",
+    //     zipCode : "767016",
+    //     country : "India"
+    // },
+    // {
+    //     id :2,
+    //     firstName :"Bigyan",
+    //     lastName : "Patel",
+    //     designation : "developer",
+    //     date : "2022-08-02",
+    //     gender : "Male",
+    //     phoneNumber : "07978059880",
+    //     address : "At- JNV Campus, Tarbha",
+    //     city : "Sonepur",
+    //     state : "Odisha",
+    //     zipCode : "767016",
+    //     country : "India"
+    // },
+    // {
+    //     id :3,
+    //     firstName :"Bigyan",
+    //     lastName : "Patel",
+    //     designation : "developer",
+    //     date : "2022-08-02",
+    //     gender : "Male",
+    //     phoneNumber : "07978059880",
+    //     address : "At- JNV Campus, Tarbha",
+    //     city : "Sonepur",
+    //     state : "Odisha",
+    //     zipCode : "767016",
+    //     country : "India"
+    // },
+    // {
+    //     id :4,
+    //     firstName :"Bigyan",
+    //     lastName : "Patel",
+    //     designation : "developer",
+    //     date : "2022-08-02",
+    //     gender : "Male",
+    //     phoneNumber : "07978059880",
+    //     address : "At- JNV Campus, Tarbha",
+    //     city : "Sonepur",
+    //     state : "Odisha",
+    //     zipCode : "767016",
+    //     country : "India"
+    // }
 ];
 
 

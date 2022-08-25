@@ -27,24 +27,21 @@ const Homepage = () => {
   return (
         <div>
             <h1>List of Employees</h1>
-            <div className='list-container'>
+            <div style={{display:'flex', justifyContent:'space-around', flexWrap:'wrap'}} className='list-container'>
             {
                 employees.map((employee, id) => (
                         <React.Fragment key={id}>
-                            <div className='box-container'>
-                                <div className='cards'>
-                                    <Avatar></Avatar>
+                                <div style={{margin: 30}} className='cards'>
+                                    <Avatar sx={{width:'150px', height:'150px'}} src={employee.image}/>
                                     <Typography style={{marginTop:'10px'}}>{employee.firstName}</Typography>                
                                     <Typography style={{marginTop:'10px'}}>{employee.designation}</Typography>
                                     <DeleteIcon className='deleteIcon' sx={{display:'flex', alignItems:'center',fontSize: 50, marginBottom:'10px' }} onClick={() => handleDelete(employee.id)}/>
                                 </div>
-                            </div>
                         </React.Fragment>
                 ))
             }
             <React.Fragment>
-                <div className='box-container'>
-                    <div className='cards'>
+                    <div style={{margin: 30}} className='cards'>
                         <Avatar className='avatar' sx={{ bgcolor: green[300]}}>
                             <AddIcon/>
                         </Avatar>
@@ -52,7 +49,6 @@ const Homepage = () => {
                             <Typography style={{marginTop:'10px'}}>Add Employees</Typography>
                         </Link>
                     </div>
-                </div>
             </React.Fragment>
             </div>
         </div>
