@@ -6,6 +6,7 @@ import Homepage from './Components/Homepage';
 import Add from './Components/Add'
 import Edit from './Components/Edit'
 import Login from './Components/login';
+import Profile from './Components/Profile';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path='/login' element= {<Login/>}/>
         <Route path='/' element= {<Homepage/>}/>
+        <Route path='/profile/:id' element = {<Profile/>}/>
         <Route path='/add' element={<Add/>}/>
         <Route path='/edit/:id' element={<Edit/>}/>
       </Routes>

@@ -79,6 +79,10 @@ const employeeReducer = (state = initialState, action) => {
         case "ADD_EMPLOYEE":
             state = [...state, action.payload];
             return state;
+        case "UPDATE_EMPLOYEE":
+            const updateState = state.map(employee => employee.id === action.payload.id ? action.payload : employee);
+            state = updateState;
+            return state;
         case "DELETE_EMPLOYEE":
             const filterEmployee = state.filter(
                 (employee) => employee.id !== action.payload && employee);

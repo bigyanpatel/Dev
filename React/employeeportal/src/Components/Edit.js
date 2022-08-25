@@ -17,9 +17,6 @@ import { Grid } from '@mui/material';
 
 
 const Add = () => {
-  
-  const {id} = useParams();
-
   const useStyles = createUseStyles({
         text1: {
             color:'gray',
@@ -44,6 +41,7 @@ const Add = () => {
         }
       });
 
+    const {id} = useParams();
     const classes = useStyles();
     const navigate = useNavigate();
     const employees = useSelector((state) => state);
@@ -80,7 +78,7 @@ const Add = () => {
         setZipCode(currentEmployee.zipCode);
         setCountry(currentEmployee.country);
       }
-    })
+    },[currentEmployee]);
 
     const handleClick = (e) =>{
         e.preventDefault();
@@ -89,8 +87,11 @@ const Add = () => {
             return toast.warning("Please fill in all the fields!")
         }
 
+        // const checkEmail = employees.find(employee => employee.id !== id && employee.email === email);
+        // const checkPassword = employees.find(employee => employee.password === password && password);
+
         const data = {
-            id: employees[employees.length - 1]. id + 1,
+            id: parseInt(id),
             firstName,
             lastName,
             designation,
@@ -104,9 +105,9 @@ const Add = () => {
             country
         }
     
-        dispatch({type:'ADD_EMPLOYEE', payload: data});
+        dispatch({type:'UPDATE_EMPLOYEE', payload: data});
         navigate('/', {replace:'true'});
-        toast.success("Student added Successfully");
+        toast.success("Employee updated Successfully");
     }
 
     const handleCancel = (e) => {
