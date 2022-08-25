@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -9,8 +8,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {toast} from 'react-toastify'
-import './Add.css'
 import {useNavigate} from 'react-router-dom';
+import './Add.css'
+import Navbar from './Navbar.js'
 import { createUseStyles } from 'react-jss';
 import { Grid } from '@mui/material';
 
@@ -66,7 +66,7 @@ const Add = () => {
         }
 
         const data = {
-            id: employees[employees.length - 1]. id + 1,
+            id: employees[employees.length - 1].id + 1,
             firstName,
             lastName,
             designation,
@@ -90,7 +90,9 @@ const Add = () => {
     }
 
   return (
-       <div className="row">
+    <>
+        <Navbar/>
+        <div className="row">
             <div className="column">
             <Card className={classes.card1}>
                 <CardContent>
@@ -141,6 +143,8 @@ const Add = () => {
             
             </div>
         </div>
+    </>
+       
   )
 }
 

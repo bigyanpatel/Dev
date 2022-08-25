@@ -5,14 +5,14 @@ import './App.css';
 import Homepage from './Components/Homepage';
 import Add from './Components/Add'
 import Edit from './Components/Edit'
-import Navbar from './Components/Navbar';
+import Login from './Components/login';
 
 function App() {
   return (
     <div className='App'>
       <ToastContainer/>
-      <Navbar/>
       <Routes>
+        <Route path='/login' element= {<Login/>}/>
         <Route path='/' element= {<Homepage/>}/>
         <Route path='/add' element={<Add/>}/>
         <Route path='/edit/:id' element={<Edit/>}/>

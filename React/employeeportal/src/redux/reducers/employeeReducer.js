@@ -1,6 +1,8 @@
 const initialState = [
     {
         id :0,
+        email: 'bigyan@gmail.com',
+        password: 'bigyan',
         firstName :"Bigyan",
         lastName : "Patel",
         designation : "developer",
