@@ -2,34 +2,51 @@ import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
 import Navbar from './Navbar';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import Avatar from '@mui/material/Avatar';
 import { green, red} from '@mui/material/colors';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import './profile.css'
 
 const Profile = () => {
 
     const {id} = useParams();
     const employees = useSelector((state) => state);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const currentEmployee = employees.find(
         (employee) => employee.id === parseInt(id)
     )
 
+    const handleEdit = (id) => {
+        navigate(`/edit/${id}`, {replace:'true'});
+        toast.success('Now you can make changes');
+    }
+
+    const handleDelete = (id) => {
+        dispatch({type:"DELETE_EMPLOYEE", payload: id});
+        navigate(`/login`, {replace:'true'});
+        toast.success("Account Deleted Sucessfully!");
+    }
+
   return (
     <>
         <Navbar/>
         <div style={{position:'absolute', top:'50px', right:'5px'}}>
-            <Avatar sx={{ bgcolor: green[500] , m : 2}}>
+            <Avatar className='avatar' sx={{ bgcolor: green[500] , m : 2}} onClick={() => handleEdit(currentEmployee.id)}>
                         <ModeEditOutlineIcon/>
             </Avatar>
-            <Avatar sx={{ bgcolor: red[500] , m : 2}}>
-                        <DeleteOutlineIcon/>
+            <Avatar className='avatar' sx={{ bgcolor: red[500] , m : 2}} onClick={() => handleDelete(currentEmployee.id)}>
+                        <DeleteOutlineOutlinedIcon/>
             </Avatar>
         </div>
         <div style={{display:'flex', justifyContent:'center', margin:'40px'}}>
-            <Avatar sx={{width:'150px', height:'150px'}} src={currentEmployee.image}/>
+            <Avatar className='avatar' sx={{width:'150px', height:'150px'}} src={currentEmployee.image}/>
         </div>
         <div>
             <Typography variant='h4'>{currentEmployee.firstName} {currentEmployee.lastName}</Typography>

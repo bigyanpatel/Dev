@@ -7,9 +7,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import Avatar from '@mui/material/Avatar';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import {Link} from "react-router-dom"
-import { green } from '@mui/material/colors';
+import { green , red } from '@mui/material/colors';
 import './Homepage.css'
 import { useDispatch, useSelector } from 'react-redux';
 import {toast} from "react-toastify";
@@ -31,19 +31,21 @@ const Homepage = () => {
             {
                 employees.map((employee, id) => (
                         <React.Fragment key={id}>
-                                <div style={{margin: 30}} className='cards'>
-                                    <Avatar sx={{width:'150px', height:'150px'}} src={employee.image}/>
-                                    <Typography style={{marginTop:'10px'}}>{employee.firstName}</Typography>                
+                                <div style={{margin: 30, display:'flex', flexDirection:'column', position:'relative'}} className='cards'>
+                                    <Avatar className='avatar' sx={{width:'150px', height:'150px'}} src={employee.image}/>
+                                    <Typography style={{marginTop:'10px'}} variant='h5'>{employee.firstName}</Typography>                
                                     <Typography style={{marginTop:'10px'}}>{employee.designation}</Typography>
-                                    <DeleteIcon className='deleteIcon' sx={{display:'flex', alignItems:'center',fontSize: 50, marginBottom:'10px' }} onClick={() => handleDelete(employee.id)}/>
+                                    <Avatar className='avatar' sx={{height:'50px', width:'50px', position:'absolute', bottom:'10px', right:'10px', bgcolor: red[500]}} onClick={() => handleDelete(employee.id)}>
+                                                <DeleteOutlineOutlinedIcon/>
+                                    </Avatar>
                                 </div>
                         </React.Fragment>
                 ))
             }
             <React.Fragment>
-                    <div style={{margin: 30}} className='cards'>
-                        <Avatar className='avatar' sx={{ bgcolor: green[300]}}>
-                            <AddIcon/>
+                    <div style={{margin: 30, display:'flex', flexDirection:'column'}} className='cards'>
+                        <Avatar className='avatar' sx={{ bgcolor: green[300], height:'100px', width:'100px'}}>
+                            <AddIcon sx={{height:'50px', width:'50px'}}/>
                         </Avatar>
                         <Link to='./Add' style={{textDecoration:'none', color:'black'}}>
                             <Typography style={{marginTop:'10px'}}>Add Employees</Typography>

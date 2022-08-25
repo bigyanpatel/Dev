@@ -145,7 +145,7 @@ const Add = () => {
         }
     
         dispatch({type:'UPDATE_EMPLOYEE', payload: data});
-        navigate('/', {replace:'true'});
+        navigate(`/profile/${id}`, {replace:'true'});
         toast.success("Employee updated Successfully");
     }
 
@@ -173,8 +173,7 @@ const Add = () => {
                             </SmallAvatar>
                             }
                         >
-                            <Avatar sx={{height:'200px', width:'200px',}} alt={currentEmployee.firstName} src={image} sizes='large'>
-                            </Avatar>
+                            <Avatar sx={{height:'200px', width:'200px', border:'black solid 1px'}} alt={currentEmployee.firstName} src={image} sizes='large'/>
                         </Badge>
                     </label>
                     <input
