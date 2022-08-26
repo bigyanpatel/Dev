@@ -16,12 +16,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {toast} from 'react-toastify'
 import './Add.css'
 import { createUseStyles } from 'react-jss';
-import { grey } from '@mui/material/colors';
-import { Grid } from '@mui/material';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import ModeEditOutline from '@mui/icons-material/ModeEditOutline';
+import Navbar from './Navbar';
 
 
 const Add = () => {
@@ -70,6 +69,8 @@ const Add = () => {
     const [country,setCountry] = useState('');
     const [image, _setImage] = useState(null);
     const inputFileRef = createRef(null);
+    const [email] = useState('');
+    const[password] = useState('');
     const [open, setOpen] = useState(false);
     const [loading,setLoading] = useState(false);
 
@@ -109,6 +110,13 @@ const Add = () => {
     const handleOnChange = (event) => {
         const newImage = event.target?.files?.[0];
 
+        const maxFileSizeLimit = 1024;
+
+        if(newImage.size / 1024 > maxFileSizeLimit){
+            toast.warning('Please select a file below 1 MB!');
+            return;
+        }
+
         if (newImage) {
         setImage(URL.createObjectURL(newImage));
         }
@@ -129,12 +137,22 @@ const Add = () => {
             return toast.warning("Please fill in all the fields!")
         }
 
-        // const checkEmail = employees.find(employee => employee.id !== id && employee.email === email);
-        // const checkPassword = employees.find(employee => employee.password === password && password);
+        let {_email} = '';
+        let {_password} = '';
+
+        if(!currentEmployee.email && !currentEmployee.password){
+            _email = firstName;
+            _password = '123456';
+        } else {
+            _email = currentEmployee.email;
+            _password = currentEmployee.password;
+        }
 
         const data = {
             id: parseInt(id),
             image,
+            email : _email,
+            password : _password,
             firstName,
             lastName,
             designation,
@@ -147,72 +165,79 @@ const Add = () => {
             zipCode,
             country
         }
+
+        // return console.log(data.email , data.password)
     
         dispatch({type:'UPDATE_EMPLOYEE', payload: data});
         navigate(`/profile/${id}`, {replace:'true'});
         toast.success("Employee updated Successfully");
     }
 
-    const handleModal = () => {
-        setOpen(true);
+    const handleProfileClick = () => {
+        navigate(`/profile/${id}`);
     }
-
-    const handleClose = () => {
-        setOpen(null);
-    };
-
 
     const handleCancel = (e) => {
         navigate('/', {replace: true});
     }
 
   return (
-       <div className="row">
-            <div className="column">
-            <div style={{margin:'5px 5px' }}>
-                <div style={{height:'300px'}}>
-                    <Typography className={classes.text1} variant="subtitle1">
-                        Image size should be less then 1MB!
-                    </Typography>
-                        <Badge sx={{marginTop:'30px'}}
-                            overlap="circular"
-                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                            badgeContent={
-                            <label htmlFor="avatar-image-upload">
-                            <SmallAvatar alt="Remy Sharp" src="" onClick={handleProfilePicUpload}>
-                                {image ? <DeleteOutlineIcon mr={5} /> : <ModeEditOutlineIcon mr={5} />}
-                            </SmallAvatar>
-                            </label>
-                            }
-                        >
-                            <Avatar sx={{height:'200px', width:'200px',}} alt='' src={image} sizes='large'>
-                            </Avatar>
-                        </Badge>
-                    <input
-                        ref={inputFileRef}
-                        accept="image/*"
-                        hidden
-                        id="avatar-image-upload"
-                        type="file"
-                        onChange={handleOnChange}
-                    />
-                            
-                </div>
-                <div style={{marginTop:'20px'}}>
-                    <div style={{display:'flex', justifyContent:'space-around'}}>
-                        <TextField sx={{width:'49%'}} id="outlined-basic" required label="First Name" variant="outlined" value={firstName} onChange={e => setFirstName(e.target.value)} />
-
-                        <TextField sx={{width:'49%'}} id="outlined-basic" required label="Last Name" variant="outlined" value={lastName} onChange={e => setLastName(e.target.value)}/>
-                    </div>
-
-                    <TextField sx={{marginTop:'10px'}} fullWidth={true} id="outlined-basic" required label="Designation" variant="outlined" value={designation} onChange={e => setDesignation(e.target.value)} />  
-
-                </div> 
+    <>
+    <div style={{position:'relative'}} className='topnav'>
+            <div className='topnav-brand'>
+                <Link to='/login' className='link'>Management System</Link>
             </div>
-                
+            <div>
+                <Avatar className='avatar' sx={{position:'absolute',width:'40px', height:'40px', right:'22px', top:'5px'}} alt= {currentEmployee.firstName} src={currentEmployee.image} onClick={handleProfileClick}/>
+            </div>
+    </div>
+    <div className="row">
+            <div className="column">
+                <div >
+                    <div style={{margin:'5px 5px', display:'flex', flexDirection:'column'}}>
+                    <div style={{height:'300px'}}>
+                        <Typography className={classes.text1} variant="subtitle1">
+                            Image size should be less then 1MB!
+                        </Typography>
+                            <Badge sx={{marginTop:'30px'}}
+                                overlap="circular"
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                badgeContent={
+                                    <label htmlFor="avatar-image-upload">
+                                        <SmallAvatar alt="Remy Sharp" src="" onClick={handleProfilePicUpload}>
+                                        {image ? <DeleteOutlineIcon mr={5} /> : <ModeEditOutlineIcon mr={5} />}
+                                        </SmallAvatar>
+                                    </label>
+                                }
+                            >
+                                <Avatar className='box-shadow' sx={{height:'200px', width:'200px',}} alt={currentEmployee.firstName} src={image} sizes='large'>
+                                </Avatar>
+                            </Badge>
+                            <input
+                            ref={inputFileRef}
+                            accept="image/*"
+                            hidden
+                            id="avatar-image-upload"
+                            type="file"
+                            onChange={handleOnChange}
+                            /> 
+                                
+                    </div>
+                    <div style={{marginTop:'30px'}}>
+                        <div style={{display:'flex', justifyContent:'space-around'}}>
+                            <TextField sx={{width:'49%', marginTop:'30px'}} id="outlined-basic" required label="First Name" variant="outlined" value={firstName} onChange={e => setFirstName(e.target.value)} />
+
+                            <TextField sx={{width:'49%', marginTop:'30px'}} id="outlined-basic" required label="Last Name" variant="outlined" value={lastName} onChange={e => setLastName(e.target.value)}/>
+                        </div>
+                        <TextField sx={{marginTop:'30px'}} fullWidth={true} id="outlined-basic" required label="Designation" variant="outlined" value={designation} onChange={e => setDesignation(e.target.value)} />  
+                    </div> 
+                </div>
+                </div>
+            </div>
+            <div className='divider'>
             </div>         
             <div className="column">
-                <div style={{margin:'5px 5px' }}>
+                <div style={{margin:'5px 5px', height:'70vh', display:'flex', flexDirection:'column', justifyContent: 'space-evenly' }}>
                     <div style={{display:'flex', justifyContent:'space-around'}}>
                         <TextField sx={{width:'49%'}} type="date" required id="outlined-basic" label="" variant="outlined" value={date} onChange={e => setDate(e.target.value)}/>
                         
@@ -238,17 +263,18 @@ const Add = () => {
 
                         <TextField sx={{width:'49%'}} fullWidth={true} type="address" required id="outlined-basic" label="Country" variant="outlined" value={country} onChange={e => setCountry(e.target.value)} />
                     </div>
-                    <CardActions>
-                    <Button color="primary" fullWidth={true} variant="contained" disabled={loading} onClick={handleCancel}> 
+                    <CardActions sx={{display:'flex', justifyContent:'right'}}>
+                    <Button className='box-shadow' color="secondary" variant="contained" disabled={loading} onClick={handleCancel}> 
                         Cancel
                     </Button>
-                    <Button color="primary" fullWidth={true} variant="contained" disabled={loading} onClick={handleClick}> 
-                        Update
+                    <Button className='box-shadow' color="primary" variant="contained" disabled={loading} onClick={handleClick}> 
+                        Save
                     </Button>
                     </CardActions>
                 </div>
             </div>
         </div>
+    </>
   )
 }
 

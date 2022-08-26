@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import { green, red} from '@mui/material/colors';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate,Link} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import './profile.css'
@@ -28,6 +28,10 @@ const Profile = () => {
         toast.success('Now you can make changes');
     }
 
+    const handleProfileClick = () => {
+        navigate(`/profile/${id}`);
+    }
+
     const handleDelete = (id) => {
         dispatch({type:"DELETE_EMPLOYEE", payload: id});
         navigate(`/login`, {replace:'true'});
@@ -36,7 +40,14 @@ const Profile = () => {
 
   return (
     <>
-        <Navbar/>
+        <div style={{position:'relative'}} className='topnav'>
+                <div className='topnav-brand'>
+                    <Link to='/login' className='link'>Management System</Link>
+                </div>
+                <div>
+                    <Avatar className='avatar' sx={{position:'absolute',width:'40px', height:'40px', right:'22px', top:'5px'}} alt= {currentEmployee.firstName} src={currentEmployee.image} onClick={handleProfileClick}/>
+                </div>
+        </div>
         <div style={{position:'absolute', top:'50px', right:'5px'}}>
             <Avatar className='avatar' sx={{ bgcolor: green[500] , m : 2}} onClick={() => handleEdit(currentEmployee.id)}>
                         <ModeEditOutlineIcon/>
@@ -45,14 +56,14 @@ const Profile = () => {
                         <DeleteOutlineOutlinedIcon/>
             </Avatar>
         </div>
-        <div style={{display:'flex', justifyContent:'center', margin:'40px'}}>
+        <div style={{display:'flex', justifyContent:'center', margin:'40px',marginTop:'100px'}}>
             <Avatar className='avatar' sx={{width:'150px', height:'150px'}} src={currentEmployee.image}/>
         </div>
         <div>
             <Typography variant='h4'>{currentEmployee.firstName} {currentEmployee.lastName}</Typography>
             <Typography variant='h6' color='#607d8b'>{currentEmployee.designation}</Typography>
         </div>
-        <div style={{display:'flex', justifyContent:'center'}}>
+        <div style={{display:'flex', justifyContent:'center',marginTop:'30px'}}>
             <div>
                 <Typography variant='subtitle1' sx={{m:1}} color='#607d8b'>Gender</Typography>
                 <Typography variant='h6' sx={{m:1}}>{currentEmployee.gender}</Typography>

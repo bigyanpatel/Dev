@@ -10,7 +10,8 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {toast} from 'react-toastify'
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+
 
 const Login = () => {
 
@@ -69,20 +70,20 @@ const Login = () => {
                 }
 
                 dispatch({type:'ADD_EMPLOYEE', payload: data});
-
                 navigate(`/edit/${ids}`,{replace:'true'});
-                toast.error("Please fill Details here");
+                toast.success("Please fill Details here");
             }
         } 
     }
 
   return (
+    <>
     <div style={{display:'flex', justifyContent:'center', alignItems:'center', height:'100vh'}} className="loginCard">
-        <Card className='card-container' sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItem:'center', height:'300px', width:'40vw'}} variant="outlined">
-            <CardContent sx={{paddingTop:'0px'}}>
-                <h5 style={{marginTop:'0px'}}>Employee and Admin login / Signup</h5>
-                <TextField  id="outlined-basic"  label="Email" type='email' variant="outlined" fullWidth={true} value = {email} onChange={e => setEmail(e.target.value)} />
-                <FormControl sx={{marginTop:'20px'}} fullWidth={true}  variant="outlined">
+        <Card className='card-container' variant="outlined">
+            <CardContent sx={{paddingTop:'0px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
+                <h5 style={{marginTop:'30px'}}>Employee and Admin login / Signup</h5>
+                <TextField sx={{ml: '10px', mr:'10px'}} id="outlined-basic"  label="Email" type='email' variant="outlined" value = {email} onChange={e => setEmail(e.target.value)} />
+                <FormControl sx={{marginTop:'20px', ml: '10px', mr:'10px'}}  variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
@@ -105,13 +106,15 @@ const Login = () => {
                     />
                 </FormControl>
             </CardContent>
-            <CardActions>
-                <Button color="primary" fullWidth={true} variant="contained" onClick={handleClick}>
+            <CardActions sx={{display:'flex', justifyContent:'center'}}>
+                <Button color="primary" variant="contained" onClick={handleClick}>
                 Login / Signup
                 </Button>
             </CardActions>
         </Card>
     </div>
+    </>
+    
   )
 }
 
