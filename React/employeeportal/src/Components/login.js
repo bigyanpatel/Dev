@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux';
-import { Button, Card, CardActions, CardContent, TextField } from '@mui/material'
+import { Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material'
 import './login.css'
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -20,7 +20,6 @@ const Login = () => {
 
     const [email,setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const [values, setValues] = React.useState({
         showPassword: false,
       });
@@ -43,31 +42,47 @@ const Login = () => {
             return toast.warning("Please fill in all the fields!")
         }
 
-        const data = {
-            email,
-            password
-        }
-
-        const checkEmail = employees.find(employee => employee.email === email && email);
-        const checkPassword = employees.find(employee => employee.password === password && password);
-
-        if(data.email == 'admin' && data.password === 'admin'){
+        if(email === 'admin' && password === 'admin'){
             navigate('/', {replace:'true'});
             toast.success("Admin Verified");
-        } else if(checkEmail && checkPassword){
-            toast.success('User Found');
-        } else {
-            navigate('/add',{replace:'true'});
-            toast.error("Please fill Details here");
-        }
+        } else{
+            const checkEmail = employees.find(employee => employee.email === email && email);
+
+            if(checkEmail){
+                const currentEmployee = employees.find(
+                    (employee) => employee.email === email
+                )
+                const checkPassword = currentEmployee.password == password ? true : false;
+                if(checkPassword){
+                    navigate(`/profile/${currentEmployee.id}`,{replace:'true'});
+                    toast.success("Logged In!");
+                } else{
+                    toast.error("Invalid User Credentials!");
+                }
+            } else {
+                const ids = employees.length == 0 ? 0 : employees[employees.length - 1].id + 1;
+
+                const data = {
+                    id: ids,
+                    email,
+                    password
+                }
+
+                dispatch({type:'ADD_EMPLOYEE', payload: data});
+
+                navigate(`/edit/${ids}`,{replace:'true'});
+                toast.error("Please fill Details here");
+            }
+        } 
     }
 
   return (
-    <div className="loginCard" sx={{width: '50vw', marginTop: '25%', marginLeft: '25%'}}>
-        <Card variant="outlined">
-            <CardContent> 
-                <TextField id="outlined-basic" sx={{m : 1}} label="Email" type='email' variant="outlined" fullWidth={true} value = {email} onChange={e => setEmail(e.target.value)} />
-                <FormControl fullWidth={true} sx={{m : 1}} variant="outlined">
+    <div style={{display:'flex', justifyContent:'center', alignItems:'center', height:'100vh'}} className="loginCard">
+        <Card className='card-container' sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItem:'center', height:'300px', width:'40vw'}} variant="outlined">
+            <CardContent sx={{paddingTop:'0px'}}>
+                <h5 style={{marginTop:'0px'}}>Employee and Admin login / Signup</h5>
+                <TextField  id="outlined-basic"  label="Email" type='email' variant="outlined" fullWidth={true} value = {email} onChange={e => setEmail(e.target.value)} />
+                <FormControl sx={{marginTop:'20px'}} fullWidth={true}  variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
