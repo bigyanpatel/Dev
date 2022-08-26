@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
+import Dialog from '@mui/material/Dialog';
 import { styled } from '@mui/material/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {toast} from 'react-toastify'
@@ -19,6 +20,8 @@ import { grey } from '@mui/material/colors';
 import { Grid } from '@mui/material';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import ModeEditOutline from '@mui/icons-material/ModeEditOutline';
 
 
 const Add = () => {
@@ -38,8 +41,7 @@ const Add = () => {
             margin: 5
         },
         sidebyside:{
-            margin:5,
-            width:'47.5%'
+            width:'49%'
         }
       });
 
@@ -68,6 +70,7 @@ const Add = () => {
     const [country,setCountry] = useState('');
     const [image, _setImage] = useState(null);
     const inputFileRef = createRef(null);
+    const [open, setOpen] = useState(false);
     const [loading,setLoading] = useState(false);
 
     const currentEmployee = employees.find(
@@ -116,6 +119,7 @@ const Add = () => {
         event.preventDefault();
         setImage(null);
         }
+        setOpen(null);
     };
 
     const handleClick = (e) =>{
@@ -149,6 +153,14 @@ const Add = () => {
         toast.success("Employee updated Successfully");
     }
 
+    const handleModal = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(null);
+    };
+
 
     const handleCancel = (e) => {
         navigate('/', {replace: true});
@@ -157,25 +169,25 @@ const Add = () => {
   return (
        <div className="row">
             <div className="column">
-            <div>
-            <CardContent>
-                <div>
+            <div style={{margin:'5px 5px' }}>
+                <div style={{height:'300px'}}>
                     <Typography className={classes.text1} variant="subtitle1">
                         Image size should be less then 1MB!
                     </Typography>
-                    <label htmlFor="avatar-image-upload">
-                        <Badge
+                        <Badge sx={{marginTop:'30px'}}
                             overlap="circular"
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             badgeContent={
+                            <label htmlFor="avatar-image-upload">
                             <SmallAvatar alt="Remy Sharp" src="" onClick={handleProfilePicUpload}>
                                 {image ? <DeleteOutlineIcon mr={5} /> : <ModeEditOutlineIcon mr={5} />}
                             </SmallAvatar>
+                            </label>
                             }
                         >
-                            <Avatar sx={{height:'200px', width:'200px', border:'black solid 1px'}} alt={currentEmployee.firstName} src={image} sizes='large'/>
+                            <Avatar sx={{height:'200px', width:'200px',}} alt='' src={image} sizes='large'>
+                            </Avatar>
                         </Badge>
-                    </label>
                     <input
                         ref={inputFileRef}
                         accept="image/*"
@@ -183,38 +195,49 @@ const Add = () => {
                         id="avatar-image-upload"
                         type="file"
                         onChange={handleOnChange}
-                    />            
+                    />
+                            
                 </div>
-                <div style={{marginTop:'10px'}}>
-                    <TextField className={classes.sidebyside} id="outlined-basic" required label="First Name" variant="outlined" value={firstName} onChange={e => setFirstName(e.target.value)} />
+                <div style={{marginTop:'20px'}}>
+                    <div style={{display:'flex', justifyContent:'space-around'}}>
+                        <TextField sx={{width:'49%'}} id="outlined-basic" required label="First Name" variant="outlined" value={firstName} onChange={e => setFirstName(e.target.value)} />
 
-                    <TextField className={classes.sidebyside} id="outlined-basic" required label="Last Name" variant="outlined" value={lastName} onChange={e => setLastName(e.target.value)}/>
+                        <TextField sx={{width:'49%'}} id="outlined-basic" required label="Last Name" variant="outlined" value={lastName} onChange={e => setLastName(e.target.value)}/>
+                    </div>
 
-                    <TextField className={classes.input} fullWidth={true} id="outlined-basic" required label="Designation" variant="outlined" value={designation} onChange={e => setDesignation(e.target.value)} />  
+                    <TextField sx={{marginTop:'10px'}} fullWidth={true} id="outlined-basic" required label="Designation" variant="outlined" value={designation} onChange={e => setDesignation(e.target.value)} />  
 
                 </div> 
-            </CardContent>
-            </div>   
+            </div>
+                
             </div>         
             <div className="column">
-                <div>
-                    <CardContent> 
-                        <Grid>
-                            <TextField className={classes.sidebyside} type="date" required id="outlined-basic" label="" variant="outlined" value={date} onChange={e => setDate(e.target.value)}/>
-                            <TextField className={classes.sidebyside} required id="outlined-basic" label="Gender" variant="outlined" value={gender} onChange={e => setGender(e.target.value)}/>
-                        </Grid>
-                    <TextField className={classes.input} fullWidth={true} type="number" required id="outlined-basic" label="Phone Number" variant="outlined" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+                <div style={{margin:'5px 5px' }}>
+                    <div style={{display:'flex', justifyContent:'space-around'}}>
+                        <TextField sx={{width:'49%'}} type="date" required id="outlined-basic" label="" variant="outlined" value={date} onChange={e => setDate(e.target.value)}/>
+                        
+                        <TextField sx={{width:'49%'}} required id="outlined-basic" label="Gender" variant="outlined" value={gender} onChange={e => setGender(e.target.value)}/>
 
-                    <TextField className={classes.input} fullWidth={true} type="address" required id="outlined-basic" label="Address" variant="outlined" value={address} onChange={e => setAddress(e.target.value)}/>
+                    </div>
 
-                    <TextField className={classes.sidebyside} fullWidth={true} type="address" required id="outlined-basic" label="City" variant="outlined" value={city} onChange={e => setCity(e.target.value)}/>
+                    
+                    <TextField sx={{marginTop:'10px'}} fullWidth={true} type="number" required id="outlined-basic" label="Phone Number" variant="outlined" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
 
-                    <TextField className={classes.sidebyside} fullWidth={true} type="address" required id="outlined-basic" label="State" variant="outlined" value={state} onChange={e => setState(e.target.value)} />
+                    <TextField sx={{marginTop:'10px'}} fullWidth={true} type="address" required id="outlined-basic" label="Address" variant="outlined" value={address} onChange={e => setAddress(e.target.value)}/>
+                    
+                    <div style={{display:'flex', justifyContent:'space-around', marginTop:'10px'}}>
+                        
+                        <TextField sx={{width:'49%'}} fullWidth={true} type="address" required id="outlined-basic" label="City" variant="outlined" value={city} onChange={e => setCity(e.target.value)}/>
 
-                    <TextField className={classes.sidebyside} fullWidth={true} type="number" required id="outlined-basic" label="Zip Code" variant="outlined" value={zipCode} onChange={e => setZipCode(e.target.value)} />
+                        <TextField sx={{width:'49%'}} fullWidth={true} type="address" required id="outlined-basic" label="State" variant="outlined" value={state} onChange={e => setState(e.target.value)} />
 
-                    <TextField className={classes.sidebyside} fullWidth={true} type="address" required id="outlined-basic" label="Country" variant="outlined" value={country} onChange={e => setCountry(e.target.value)} />
-                    </CardContent>
+                    </div>
+
+                    <div style={{display:'flex', justifyContent:'space-around', marginTop:'10px'}}>
+                        <TextField sx={{width:'49%'}} fullWidth={true} type="number" required id="outlined-basic" label="Zip Code" variant="outlined" value={zipCode} onChange={e => setZipCode(e.target.value)} />
+
+                        <TextField sx={{width:'49%'}} fullWidth={true} type="address" required id="outlined-basic" label="Country" variant="outlined" value={country} onChange={e => setCountry(e.target.value)} />
+                    </div>
                     <CardActions>
                     <Button color="primary" fullWidth={true} variant="contained" disabled={loading} onClick={handleCancel}> 
                         Cancel

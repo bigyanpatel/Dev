@@ -5,32 +5,11 @@
     overflow: auto;
   }
   
-  /* Clear floats after the columns */
   .row:after {
     content: "";
     display: table;
     clear: both;
   }
-
-
-
-/* .sbs{
-    display: flex;
-    flex-direction: row;
-    position: relative;
-}
-
-.sbs > *{
-    position:absolute;
-    flex: 0 0 auto;
-    width: 150px;
-    margin: 50%;
-} */
-
-.sidebyside2{
-  margin:'1.25% 1.25%';
-  width:'47.5%';
-}
 
 @media screen and (max-width: 700px) {
     .column {
