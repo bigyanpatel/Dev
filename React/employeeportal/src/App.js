@@ -7,6 +7,7 @@ import Add from './Components/Add'
 import Edit from './Components/Edit'
 import Login from './Components/login';
 import Profile from './Components/Profile';
+import Test from './Components/Test'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/profile/:id' element = {<Profile/>}/>
         <Route path='/add/:id' element={<Add/>}/>
         <Route path='/edit/:id' element={<Edit/>}/>
+        <Route path='/test' element={<Test/>}/>
       </Routes>
     </div>
   );

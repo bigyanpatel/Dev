@@ -44,15 +44,15 @@ const Profile = () => {
                 <div className='topnav-brand'>
                     <Link to='/' className='link'>Management System</Link>
                 </div>
-                <div>
+                <div className='pointer'>
                     <Avatar className='avatar' sx={{position:'absolute',width:'40px', height:'40px', right:'22px', top:'5px'}} alt= {currentEmployee.firstName} src={currentEmployee.image} onClick={handleProfileClick}/>
                 </div>
         </div>
         <div style={{position:'absolute', top:'50px', right:'5px'}}>
-            <Avatar className='avatar' sx={{ bgcolor: green[500] , m : 2}} onClick={() => handleEdit(currentEmployee.id)}>
+            <Avatar className='avatar pointer' sx={{ bgcolor: green[500] , m : 2}} onClick={() => handleEdit(currentEmployee.id)}>
                         <ModeEditOutlineIcon/>
             </Avatar>
-            <Avatar className='avatar' sx={{ bgcolor: red[500] , m : 2}} onClick={() => handleDelete(currentEmployee.id)}>
+            <Avatar className='avatar pointer' sx={{ bgcolor: red[500] , m : 2}} onClick={() => handleDelete(currentEmployee.id)}>
                         <DeleteOutlineOutlinedIcon/>
             </Avatar>
         </div>

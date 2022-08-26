@@ -187,7 +187,7 @@ const Add = () => {
             <div className='topnav-brand'>
                 <Link to='/' className='link'>Management System</Link>
             </div>
-            <div>
+            <div className='pointer'>
                 <Avatar className='avatar' sx={{position:'absolute',width:'40px', height:'40px', right:'22px', top:'5px'}} alt= {currentEmployee.firstName} src={currentEmployee.image} onClick={handleProfileClick}/>
             </div>
     </div>
@@ -204,7 +204,7 @@ const Add = () => {
                                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                                 badgeContent={
                                     <label htmlFor="avatar-image-upload">
-                                        <SmallAvatar alt="Remy Sharp" src="" onClick={handleProfilePicUpload}>
+                                        <SmallAvatar className='pointer' alt="Remy Sharp" src="" onClick={handleProfilePicUpload}>
                                         {image ? <DeleteOutlineIcon mr={5} /> : <ModeEditOutlineIcon mr={5} />}
                                         </SmallAvatar>
                                     </label>
