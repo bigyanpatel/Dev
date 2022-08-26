@@ -31,21 +31,31 @@ const Homepage = () => {
         const data = {
             id: id
         }
+
         dispatch({type:'ADD_EMPLOYEE', payload: data});
         navigate(`/add/${id}`, {replace:'true'});
         toast.success('Please add details!');
     }
 
+    const handleLogOut = () => {
+        navigate(`/`);
+        toast.warn('Loged Out!');
+    }
+
 
   return (
         <div>
-            <div className='topnav'>
+            <div style={{position:'relative'}} className='topnav'>
                     <div className='topnav-brand'>
-                        <Link to='/login' className='link'>Management System</Link>
+                        <Typography onClick={handleLogOut}>
+                            Management System
+                        </Typography>
                     </div>
-                    <Link to =  "/" className='topnav-profile'>
-                        Admin
-                    </Link>
+                    <div style={{position:'absolute', right:'10px'}} className='topnav-brand'>
+                        <Typography>
+                            Admin
+                        </Typography>
+                    </div>
             </div>
             <div style={{display:'flex', marginLeft:'35px'}}>
                 <h1 style={{left:'30px'}}>List of Employees</h1>

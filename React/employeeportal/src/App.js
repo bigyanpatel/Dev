@@ -13,8 +13,8 @@ function App() {
     <div className='App'>
       <ToastContainer/>
       <Routes>
-        <Route path='/login' element= {<Login/>}/>
-        <Route path='/' element= {<Homepage/>}/>
+        <Route path='/' element= {<Login/>}/>
+        <Route path='/home' element= {<Homepage/>}/>
         <Route path='/profile/:id' element = {<Profile/>}/>
         <Route path='/add/:id' element={<Add/>}/>
         <Route path='/edit/:id' element={<Edit/>}/>

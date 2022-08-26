@@ -178,14 +178,14 @@ const Add = () => {
     }
 
     const handleCancel = (e) => {
-        navigate('/', {replace: true});
+        navigate(`/profile/${id}`);
     }
 
   return (
     <>
     <div style={{position:'relative'}} className='topnav'>
             <div className='topnav-brand'>
-                <Link to='/login' className='link'>Management System</Link>
+                <Link to='/' className='link'>Management System</Link>
             </div>
             <div>
                 <Avatar className='avatar' sx={{position:'absolute',width:'40px', height:'40px', right:'22px', top:'5px'}} alt= {currentEmployee.firstName} src={currentEmployee.image} onClick={handleProfileClick}/>

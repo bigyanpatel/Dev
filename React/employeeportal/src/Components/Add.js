@@ -1,4 +1,7 @@
-import React, {createRef, useState,useEffect} from 'react'
+import React, {createRef,useState, useEffect} from 'react'
+import {Link, useParams} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -7,21 +10,21 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
+import Dialog from '@mui/material/Dialog';
 import { styled } from '@mui/material/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {toast} from 'react-toastify'
-import {Link, useNavigate} from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import './Add.css'
-import Navbar from './Navbar.js'
 import { createUseStyles } from 'react-jss';
-import { Grid } from '@mui/material';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import ModeEditOutline from '@mui/icons-material/ModeEditOutline';
+import Navbar from './Navbar';
 
 
 const Add = () => {
-    const useStyles = createUseStyles({
+  const useStyles = createUseStyles({
         text1: {
             color:'gray',
             textAlign:"center"
@@ -34,14 +37,10 @@ const Add = () => {
             marginTop:'2%'
         },
         input:{
-            marginTop:'5%'
-        },
-        input2:{
-            marginTop:'5%'
+            margin: 5
         },
         sidebyside:{
-            margin:'2.5% 1.25%',
-            width:'47.5%'
+            width:'49%'
         }
       });
 
@@ -51,149 +50,157 @@ const Add = () => {
         border: `2px solid ${theme.palette.background.paper}`,
       }));
 
-      const {id} = useParams();
-      const classes = useStyles();
-      const navigate = useNavigate();
-      const employees = useSelector((state) => state);
-      const dispatch = useDispatch();
-  
-      const [firstName,setFirstName] = useState('');
-      const [lastName,setLastName] = useState('');
-      const [designation,setDesignation] = useState('');
-      const [date,setDate] = useState('');
-      const [gender,setGender] = useState('');
-      const [phoneNumber,setPhoneNumber] = useState('');
-      const [address,setAddress] = useState('');
-      const [city,setCity] = useState('');
-      const [state,setState] = useState('');
-      const [zipCode,setZipCode] = useState('');
-      const [country,setCountry] = useState('');
-      const [image, _setImage] = useState(null);
-      const inputFileRef = createRef(null);
-      const [email] = useState('');
-      const[password] = useState('');
-      const [open, setOpen] = useState(false);
-      const [loading,setLoading] = useState(false);
-  
-      const currentEmployee = employees.find(
-        (employee) => employee.id === parseInt(id)
-      )
-  
-      useEffect(() => {
-        if(currentEmployee){
-          _setImage(currentEmployee.image);
-          setFirstName(currentEmployee.firstName);
-          setLastName(currentEmployee.lastName);
-          setDesignation(currentEmployee.designation);
-          setDate(currentEmployee.date);
-          setGender(currentEmployee.gender);
-          setPhoneNumber(currentEmployee.phoneNumber);
-          setAddress(currentEmployee.address);
-          setCity(currentEmployee.city);
-          setState(currentEmployee.state);
-          setZipCode(currentEmployee.zipCode);
-          setCountry(currentEmployee.country);
+    const {id} = useParams();
+    const classes = useStyles();
+    const navigate = useNavigate();
+    const employees = useSelector((state) => state);
+    const dispatch = useDispatch();
+
+    const [firstName,setFirstName] = useState('');
+    const [lastName,setLastName] = useState('');
+    const [designation,setDesignation] = useState('');
+    const [date,setDate] = useState('');
+    const [gender,setGender] = useState('');
+    const [phoneNumber,setPhoneNumber] = useState('');
+    const [address,setAddress] = useState('');
+    const [city,setCity] = useState('');
+    const [state,setState] = useState('');
+    const [zipCode,setZipCode] = useState('');
+    const [country,setCountry] = useState('');
+    const [image, _setImage] = useState(null);
+    const inputFileRef = createRef(null);
+    const [email] = useState('');
+    const[password] = useState('');
+    const [open, setOpen] = useState(false);
+    const [loading,setLoading] = useState(false);
+
+    const currentEmployee = employees.find(
+      (employee) => employee.id === parseInt(id)
+    )
+
+    useEffect(() => {
+      if(currentEmployee){
+        _setImage(currentEmployee.image);
+        setFirstName(currentEmployee.firstName);
+        setLastName(currentEmployee.lastName);
+        setDesignation(currentEmployee.designation);
+        setDate(currentEmployee.date);
+        setGender(currentEmployee.gender);
+        setPhoneNumber(currentEmployee.phoneNumber);
+        setAddress(currentEmployee.address);
+        setCity(currentEmployee.city);
+        setState(currentEmployee.state);
+        setZipCode(currentEmployee.zipCode);
+        setCountry(currentEmployee.country);
+      }
+    },[currentEmployee]);
+
+    const cleanup = () => {
+        URL.revokeObjectURL(image);
+        inputFileRef.current.value = null;
+    };
+
+    const setImage = (newImage) => {
+        if (image) {
+        cleanup();
         }
-      },[currentEmployee]);
-  
-      const cleanup = () => {
-          URL.revokeObjectURL(image);
-          inputFileRef.current.value = null;
-      };
-  
-      const setImage = (newImage) => {
-          if (image) {
-          cleanup();
-          }
-          _setImage(newImage);
-      };
-  
-      const handleOnChange = (event) => {
-          const newImage = event.target?.files?.[0];
-  
-          const maxFileSizeLimit = 1024;
-  
-          if(newImage.size / 1024 > maxFileSizeLimit){
-              toast.warning('Please select a file below 1 MB!');
-              return;
-          }
-  
-          if (newImage) {
-          setImage(URL.createObjectURL(newImage));
-          }
-      };
-  
-      const handleProfilePicUpload = (event) => {
-          if (image) {
-          event.preventDefault();
-          setImage(null);
-          }
-          setOpen(null);
-      };
-  
-      const handleClick = (e) =>{
-          e.preventDefault();
-  
-          if(!firstName || !lastName || !designation || !date || !phoneNumber || !address || !city || !state || !zipCode || !country){
-              return toast.warning("Please fill in all the fields!")
-          }
-  
-          let {_email} = '';
-          let {_password} = '';
-  
-          if(!currentEmployee.email && !currentEmployee.password){
-              _email = firstName;
-              _password = '123456';
-          } else {
-              _email = currentEmployee.email;
-              _password = currentEmployee.password;
-          }
-  
-          const data = {
-              id: parseInt(id),
-              image,
-              email : _email,
-              password : _password,
-              firstName,
-              lastName,
-              designation,
-              date,
-              gender,
-              phoneNumber,
-              address,
-              city,
-              state,
-              zipCode,
-              country
-          }
-  
-          // return console.log(data.email , data.password)
-      
-          dispatch({type:'UPDATE_EMPLOYEE', payload: data});
-          navigate(`/`, {replace:'true'});
-          toast.success("Employee Added Successfully");
-      }
-  
-      const handleProfileClick = () => {
-          navigate(`/profile/${id}`);
-      }
-  
-      const handleCancel = () => {
+        _setImage(newImage);
+    };
+
+    const handleOnChange = (event) => {
+        const newImage = event.target?.files?.[0];
+
+        const maxFileSizeLimit = 1024;
+
+        if(newImage.size / 1024 > maxFileSizeLimit){
+            toast.warning('Please select a file below 1 MB!');
+            return;
+        }
+
+        if (newImage) {
+        setImage(URL.createObjectURL(newImage));
+        }
+    };
+
+    const handleProfilePicUpload = (event) => {
+        if (image) {
+        event.preventDefault();
+        setImage(null);
+        }
+        setOpen(null);
+    };
+
+    const handleClick = (e) =>{
+        e.preventDefault();
+
+        if(!firstName || !lastName || !designation || !date || !phoneNumber || !address || !city || !state || !zipCode || !country){
+            return toast.warning("Please fill in all the fields!")
+        }
+
+        let {_email} = '';
+        let {_password} = '';
+
+        if(!currentEmployee.email && !currentEmployee.password){
+            _email = firstName;
+            _password = '123456';
+        } else {
+            _email = currentEmployee.email;
+            _password = currentEmployee.password;
+        }
+
+        const data = {
+            id: parseInt(id),
+            image,
+            email : _email,
+            password : _password,
+            firstName,
+            lastName,
+            designation,
+            date,
+            gender,
+            phoneNumber,
+            address,
+            city,
+            state,
+            zipCode,
+            country
+        }
+
+        // return console.log(data.email , data.password)
+    
+        dispatch({type:'UPDATE_EMPLOYEE', payload: data});
+        navigate(`/home`, {replace:'true'});
+        toast.success("Employee added Successfully");
+    }
+
+    const handleProfileClick = () => {
+        navigate(`/profile/${id}`);
+    }
+
+    const handleCancel = () => {
         dispatch({type:"DELETE_EMPLOYEE", payload: currentEmployee.id});
-        toast.warning("canceled!");
-          navigate('/', {replace: true});
-      }
+        navigate(`/home`);
+        toast.warn('Canceled');
+    }
+
+    const handleLogOut = () => {
+        navigate(`/`);
+        dispatch({type:"DELETE_EMPLOYEE", payload: currentEmployee.id});
+        toast.warn('Loged Out!');
+    }
 
   return (
     <>
     <div style={{position:'relative'}} className='topnav'>
             <div className='topnav-brand'>
-                <Link to='/login' className='link'>Management System</Link>
+                <Typography onClick={handleLogOut}>
+                    Management System
+                </Typography>
             </div>
             <div style={{position:'absolute', right:'10px'}} className='topnav-brand'>
-                <Link to =  "/" className='link'>
+                <Typography onClick={handleCancel}>
                     Admin
-                </Link>
+                </Typography>
             </div>
     </div>
     <div className="row">
@@ -215,7 +222,7 @@ const Add = () => {
                                     </label>
                                 }
                             >
-                                <Avatar className='box-shadow' sx={{height:'200px', width:'200px',}} alt='' src={image} sizes='large'>
+                                <Avatar className='box-shadow' sx={{height:'200px', width:'200px',}} alt={currentEmployee.firstName} src={image} sizes='large'>
                                 </Avatar>
                             </Badge>
                             <input
@@ -280,7 +287,6 @@ const Add = () => {
             </div>
         </div>
     </>
-       
   )
 }
 

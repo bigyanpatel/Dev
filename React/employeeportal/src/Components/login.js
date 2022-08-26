@@ -44,7 +44,7 @@ const Login = () => {
         }
 
         if(email === 'admin' && password === 'admin'){
-            navigate('/', {replace:'true'});
+            navigate('/home', {replace:'true'});
             toast.success("Admin Verified");
         } else{
             const checkEmail = employees.find(employee => employee.email === email && email);

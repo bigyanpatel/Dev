@@ -7,10 +7,10 @@ const Navbar = () => {
 
   return (
     <div className='topnav'>
-        <Link to =  "/" className='topnav-brand'>
+        <Link to =  "/home" className='topnav-brand'>
             Management System
         </Link>
-        <Link to =  "/" className='topnav-profile'>
+        <Link to =  "/home" className='topnav-profile'>
             {id === 0 ? 'Admin' : 'profile'}
         </Link>
     </div>
