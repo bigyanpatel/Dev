@@ -193,12 +193,12 @@ const Add = () => {
     <>
     <div style={{position:'relative'}} className='topnav'>
             <div className='topnav-brand'>
-                <Typography onClick={handleLogOut}>
+                <Typography className='pointer' onClick={handleLogOut}>
                     Management System
                 </Typography>
             </div>
-            <div style={{position:'absolute', right:'10px'}} className='topnav-brand'>
-                <Typography onClick={handleCancel}>
+            <div  style={{position:'absolute', right:'10px'}} className='topnav-brand'>
+                <Typography className='pointer' onClick={handleCancel}>
                     Admin
                 </Typography>
             </div>
@@ -216,8 +216,8 @@ const Add = () => {
                                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                                 badgeContent={
                                     <label htmlFor="avatar-image-upload">
-                                        <SmallAvatar alt="Remy Sharp" src="" onClick={handleProfilePicUpload}>
-                                        {image ? <DeleteOutlineIcon mr={5} /> : <ModeEditOutlineIcon mr={5} />}
+                                        <SmallAvatar className='pointer' alt="Remy Sharp" src="" onClick={handleProfilePicUpload}>
+                                            {image ? <DeleteOutlineIcon mr={5} /> : <ModeEditOutlineIcon mr={5} />}
                                         </SmallAvatar>
                                     </label>
                                 }
@@ -244,7 +244,7 @@ const Add = () => {
                         <TextField sx={{marginTop:'30px'}} fullWidth={true} id="outlined-basic" required label="Designation" variant="outlined" value={designation} onChange={e => setDesignation(e.target.value)} />  
                     </div> 
                 </div>
-                </div>
+            </div>
             </div>
             <div className='divider'>
             </div>         
@@ -257,10 +257,9 @@ const Add = () => {
 
                     </div>
 
-                    
-                    <TextField sx={{marginTop:'10px'}} fullWidth={true} type="number" required id="outlined-basic" label="Phone Number" variant="outlined" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+                        <TextField sx={{marginTop:'10px'}} fullWidth={true} type="number" required id="outlined-basic" label="Phone Number" variant="outlined" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
 
-                    <TextField sx={{marginTop:'10px'}} fullWidth={true} type="address" required id="outlined-basic" label="Address" variant="outlined" value={address} onChange={e => setAddress(e.target.value)}/>
+                        <TextField sx={{marginTop:'10px'}} fullWidth={true} type="address" required id="outlined-basic" label="Address" variant="outlined" value={address} onChange={e => setAddress(e.target.value)}/>
                     
                     <div style={{display:'flex', justifyContent:'space-around', marginTop:'10px'}}>
                         
@@ -276,12 +275,12 @@ const Add = () => {
                         <TextField sx={{width:'49%'}} fullWidth={true} type="address" required id="outlined-basic" label="Country" variant="outlined" value={country} onChange={e => setCountry(e.target.value)} />
                     </div>
                     <CardActions sx={{display:'flex', justifyContent:'right'}}>
-                    <Button className='box-shadow' color="secondary" variant="contained" disabled={loading} onClick={handleCancel}> 
-                        Cancel
-                    </Button>
-                    <Button className='box-shadow' color="primary" variant="contained" disabled={loading} onClick={handleClick}> 
-                        Save
-                    </Button>
+                        <Button className='box-shadow' color="secondary" variant="contained" disabled={loading} onClick={handleCancel}> 
+                            Cancel
+                        </Button>
+                        <Button className='box-shadow' color="primary" variant="contained" disabled={loading} onClick={handleClick}> 
+                            Save
+                        </Button>
                     </CardActions>
                 </div>
             </div>
