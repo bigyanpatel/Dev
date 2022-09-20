@@ -1,0 +1,21 @@
+.container{
+    /* position: absolute; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.user-inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.floor{
+    height: 100px;
+    width: 80vw;
+    background-color: rgb(219, 189, 189);
+}
