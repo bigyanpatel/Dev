@@ -30,6 +30,10 @@
     background-color: rgb(142, 78, 203);
 }
 
+.buttons{
+    display: flex;
+}
+
 .box{
     position: absolute;
     height: 100px;
@@ -38,7 +42,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: linear;
+    transition-timing-function: linear;
 }
 
 .doors{
