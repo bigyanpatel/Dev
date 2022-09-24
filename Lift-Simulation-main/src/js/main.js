@@ -113,6 +113,7 @@ function generateSimArea(noOfFloors, noOfLifts){
 
         textEle.setAttribute('id',`box-${i+1}text`);
         textEle.style.position = 'absolute';
+        textEle.style.margin = 10 + 'px';
 
         door1.setAttribute('class','door-1');
         door2.setAttribute('class','door-2');

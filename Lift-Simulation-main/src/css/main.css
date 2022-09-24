@@ -27,7 +27,7 @@
 }
 
 button{
-    border-radius: 50%;
+    border-radius: 10px;
 }
 
 .controllers{
@@ -100,7 +100,7 @@ button{
 
 .floor-level{
     height: 100px;
-    width: 100px;
+    /* width: 100px; */
     display: flex;
     flex-direction: column;
     justify-content: space-around;
