@@ -76,6 +76,7 @@ button{
     border-right: 2px solid black;
     transition: 2.5s;
     background-color: rgb(45, 113, 173);
+    z-index: 3;
 }
 
 .door-2{
@@ -85,6 +86,7 @@ button{
     border-left: 2px solid black;
     transition: 2.5s;
     background-color: rgb(45, 113, 173);
+    z-index: 3;
 }
 
 .floors{

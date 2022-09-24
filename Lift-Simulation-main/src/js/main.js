@@ -2,7 +2,7 @@ let noOfFloors;
 let noOfLifts;
 let data; //to store the coordinates of the lifts floors
 let functionData; //to store the lift functioning : whether it is in freeze state or working
-let currFloor;
+let currFloor; //this holds the target floor to move the lift
 
 document.getElementById('generate').addEventListener('click',(e)=>{
     e.preventDefault();
@@ -65,17 +65,21 @@ function generateSimArea(noOfFloors, noOfLifts){
         let floorNo = `Level-${noOfFloors - i - 1}`
         let currLevel = document.createElement('div');
         currLevel.setAttribute('class', 'floor-level');
+
         let pTag = document.createElement('p');
         let PText = document.createTextNode(floorNo);
         pTag.appendChild(PText);
+
         let buttonsDiv = document.createElement('div');
         buttonsDiv.setAttribute('class','buttons');
+
         let btnUp = document.createElement('button');
         let btnDown = document.createElement('button');
         btnUp.setAttribute('class','move');
         btnDown.setAttribute('class','move');
         btnUp.setAttribute('id',`U-${i}`);
         btnDown.setAttribute('id',`D-${i}`);
+
         let btnArrowUp = document.createTextNode('🔺');
         let btnArrowDowm = document.createTextNode('🔻');
         btnUp.appendChild(btnArrowUp);
@@ -99,13 +103,16 @@ function generateSimArea(noOfFloors, noOfLifts){
         div.setAttribute('class','floors');
         let elevator = document.createElement('div');
         let elevatorDoors = document.createElement('div');
+        let textEle = document.createElement('p');
         let door1 = document.createElement('div');
         let door2 = document.createElement('div');
 
         elevator.setAttribute('class','box');
         elevator.setAttribute('id',`box-${i+1}`);
-
         elevatorDoors.setAttribute('class','doors');
+
+        textEle.setAttribute('id',`box-${i+1}text`);
+        textEle.style.position = 'absolute';
 
         door1.setAttribute('class','door-1');
         door2.setAttribute('class','door-2');
@@ -115,6 +122,7 @@ function generateSimArea(noOfFloors, noOfLifts){
         elevatorDoors.appendChild(door1); 
         elevatorDoors.appendChild(door2); 
         elevator.appendChild(elevatorDoors);
+        elevator.appendChild(textEle);
         div.appendChild(elevator);
         document.getElementById('simulationArea').appendChild(div);
     }
@@ -223,6 +231,13 @@ function liftOnSameFloor(targetLift){
         return;
     }
     functionData[targetLift - 1] = true;
+    let textEle = document.getElementById(`box-${targetLift}text`);
+    textEle.innerHTML = '';
+    textEle.style.textAlign = 'center';
+    textEle.style.fontSize = 10 + 'px';
+    let textP = document.createTextNode(`At
+    Level-${noOfFloors - currFloor - 1}`);
+    textEle.appendChild(textP);
     let transitionTime = 0;
     doorAnimation(targetLift,transitionTime);
 }
@@ -240,6 +255,13 @@ function liftTransition(targetLift, i , j){
     let transitionTime = Math.abs(currFloor - i) * 2;
     div.style.transitionDuration = transitionTime+ "s";
     div.style.top = targetFlr + "px";
+    let textEle = document.getElementById(`box-${targetLift}text`);
+    textEle.innerHTML = '';
+    textEle.style.textAlign = 'center';
+    textEle.style.fontSize = 10 + 'px';
+    let textP = document.createTextNode(`Reached
+    Level-${noOfFloors - currFloor - 1}`);
+    textEle.appendChild(textP);
     doorAnimation(targetLift,transitionTime);
 }
 
