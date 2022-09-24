@@ -21,7 +21,10 @@
     background-color: antiquewhite;
     margin-top: 10px;
     min-width: 450px;
-    /* overflow-x: scroll; */
+}
+
+.simulationAreaBorder{
+    border: 5px solid black;
 }
 
 button{
@@ -33,11 +36,18 @@ button{
     flex-direction: column;
     justify-content: space-around;
     height: auto;
-    background-color: rgb(142, 78, 203);
+    background-color: rgb(193, 210, 213);
 }
 
 .buttons{
     display: flex;
+}
+
+.lines{
+    position:absolute; 
+    height:5px; 
+    width: 100%;  
+    background-color: black;
 }
 
 .box{
@@ -68,6 +78,7 @@ button{
     transition: 2.5s;
     background-color: rgb(45, 113, 173);
 }
+
 .door-2{
     display: flex;
     width: 50%;
@@ -80,7 +91,7 @@ button{
 .floors{
     position: relative;
     width: 100px;
-    background-color: rgb(207, 195, 195);
+    background-color: rgb(193, 210, 213);
     display: flex;
     justify-content: center;
     margin-left: 20px;

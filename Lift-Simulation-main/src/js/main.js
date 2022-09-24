@@ -1,5 +1,8 @@
 let noOfFloors;
 let noOfLifts;
+let data; //to store the coordinates of the lifts floors
+let functionData; //to store the lift functioning : whether it is in freeze state or working
+let currFloor;
 
 document.getElementById('generate').addEventListener('click',(e)=>{
     e.preventDefault();
@@ -13,66 +16,11 @@ document.getElementById('generate').addEventListener('click',(e)=>{
         alert("Please Enter some valid numbers mann!!");
         return;
     }
+    generateData(noOfFloors, noOfLifts)
     generateSimArea(noOfFloors, noOfLifts);
-    document.getElementById('generate').disabled = true;
 })
 
-function generateSimArea(noOfFloors, noOfLifts){
-
-    //generating controllers to move the lift
-    let controllers = document.createElement('div');
-    controllers.setAttribute('class','controllers');
-    controllers.setAttribute('id','controllers');
-    document.getElementById('simulationArea').appendChild(controllers);
-    for (let i=0;i<noOfFloors;i++) {
-        let floorNo = `Level-${noOfFloors - i - 1}`
-        document.getElementById('controllers').innerHTML += `
-        <div class="floor-level">
-            <p>${floorNo}</p>
-            <div class="buttons">
-                <button class="move" id="U-${i}">🔺</button>
-                <button class="move" id="D-${i}">🔻</button>
-            </div>
-        </div>    
-        `;
-    }
-
-    //deleting extra buttons
-    const up0 = document.getElementById("U-0");
-    up0.remove();
-    const downLast = document.getElementById(`D-${noOfFloors - 1}`);
-    downLast.remove();
-
-    //generating elevators
-    for(let i = 0; i < noOfLifts; i++){
-        let div = document.createElement('div');
-        div.setAttribute('class','floors');
-        div.innerHTML =`
-        <div class="box" id="box-${i+1}">
-            <div class="doors">
-                <div class="door-1" id="box${i+1}-door1"></div>
-                <div class="door-2" id="box${i+1}-door2"></div>
-            </div>
-        </div>
-        `
-        document.getElementById('simulationArea').appendChild(div);
-    }
-
-    //generate floor border lines
-    for(let i = 1; i < noOfFloors; i++){
-        document.getElementById('simulationArea').innerHTML +=`
-            <div class="lines" style="position:absolute; height:5px; width: 100%; top: ${i * 100}px; background-color: black"><div>
-        `
-    }
-
-    //sending all the elevators to the groud-floor
-    for(let i = 1; i <= noOfLifts; i++){
-        var div = document.getElementById(`box-${i}`);
-        div.style.top = (noOfFloors - 1) * 100 + 'px';
-    }
-
-    let currFloor = 0;
-
+function generateData(noOfFloors,noOfLifts){
     //function to create 2d Matrix
     function createArray(length) {
         var arr = new Array(length || 0),
@@ -84,8 +32,10 @@ function generateSimArea(noOfFloors, noOfLifts){
         }
         return arr;
     }
-    let data = createArray(noOfFloors, parseInt(noOfLifts));
-    let functionData = new Array(noOfLifts).fill(false);
+
+
+    data = createArray(parseInt(noOfFloors), parseInt(noOfLifts));
+    functionData = new Array(noOfLifts).fill(false);
 
     //generating data for elevators to map their position
     for(let i = 0; i < data.length; i++){
@@ -97,8 +47,94 @@ function generateSimArea(noOfFloors, noOfLifts){
             }
         }
     }
+}
 
-    //selecting all buttons to trigger action
+function generateSimArea(noOfFloors, noOfLifts){
+    // to reset out data and ui for generating everything once again
+    if (document.getElementById("controllers")) {
+        document.getElementById('simulationArea').innerHTML = "";
+    }
+
+    //generating controllers to move the lift
+    let controllers = document.createElement('div');
+    controllers.setAttribute('class','controllers');
+    controllers.setAttribute('id','controllers');
+    document.getElementById('simulationArea').appendChild(controllers);
+
+    for (let i=0;i<noOfFloors;i++) {
+        let floorNo = `Level-${noOfFloors - i - 1}`
+        let currLevel = document.createElement('div');
+        currLevel.setAttribute('class', 'floor-level');
+        let pTag = document.createElement('p');
+        let PText = document.createTextNode(floorNo);
+        pTag.appendChild(PText);
+        let buttonsDiv = document.createElement('div');
+        buttonsDiv.setAttribute('class','buttons');
+        let btnUp = document.createElement('button');
+        let btnDown = document.createElement('button');
+        btnUp.setAttribute('class','move');
+        btnDown.setAttribute('class','move');
+        btnUp.setAttribute('id',`U-${i}`);
+        btnDown.setAttribute('id',`D-${i}`);
+        let btnArrowUp = document.createTextNode('🔺');
+        let btnArrowDowm = document.createTextNode('🔻');
+        btnUp.appendChild(btnArrowUp);
+        btnDown.appendChild(btnArrowDowm);
+        buttonsDiv.appendChild(btnUp); 
+        buttonsDiv.appendChild(btnDown);
+        currLevel.appendChild(pTag);  
+        currLevel.appendChild(buttonsDiv);  
+        document.getElementById('controllers').appendChild(currLevel);   
+    }
+
+    //deleting extra buttons from the top and lowest levels
+    const up0 = document.getElementById("U-0");
+    up0.remove();
+    const downLast = document.getElementById(`D-${noOfFloors - 1}`);
+    downLast.remove();
+
+    //generating elevators
+    for(let i = 0; i < noOfLifts; i++){
+        let div = document.createElement('div');
+        div.setAttribute('class','floors');
+        let elevator = document.createElement('div');
+        let elevatorDoors = document.createElement('div');
+        let door1 = document.createElement('div');
+        let door2 = document.createElement('div');
+
+        elevator.setAttribute('class','box');
+        elevator.setAttribute('id',`box-${i+1}`);
+
+        elevatorDoors.setAttribute('class','doors');
+
+        door1.setAttribute('class','door-1');
+        door2.setAttribute('class','door-2');
+        door1.setAttribute('id',`box${i+1}-door1`);
+        door2.setAttribute('id',`box${i+1}-door2`);
+
+        elevatorDoors.appendChild(door1); 
+        elevatorDoors.appendChild(door2); 
+        elevator.appendChild(elevatorDoors);
+        div.appendChild(elevator);
+        document.getElementById('simulationArea').appendChild(div);
+    }
+
+    //generate floor border lines
+    for(let i = 1; i < noOfFloors; i++){
+        let borderLines = document.createElement('div');
+        borderLines.setAttribute('class', 'lines');
+        borderLines.style.top = i * 100 + "px";
+        document.getElementById('simulationArea').appendChild(borderLines);
+    }
+
+    //sending all the elevators to the groud-floor
+    for(let i = 1; i <= noOfLifts; i++){
+        var div = document.getElementById(`box-${i}`);
+        div.style.top = (noOfFloors - 1) * 100 + 'px';
+        // div.style.top = 100 + '%';
+    }
+
+    //selecting the trigered button
     const allButtons = document.querySelectorAll('.move');
     allButtons.forEach(btn => {
             btn.addEventListener('click', ()=>{
@@ -108,58 +144,87 @@ function generateSimArea(noOfFloors, noOfLifts){
                     check("up", currFloor);
                 } else{
                     check("down", currFloor);
-                }
+                }  
             })
         }
     )
-    
-    
-    //to check whether we need to lookup for the elevators above or below according to button trigger
-    function check(check, currFloor){
-        let targetLift;
-        if(check === 'up'){
-            for(let i = currFloor; i >= 0; i--){
-                for(let j = 0; j < data[0].length; j++){
-                    if(i == currFloor && data[i][j] !== 0){
-                        targetLift = data[i][j];
-                        liftOnSameFloor(targetLift);
-                        return;
-                    }
-                    if(data[i][j] !== 0){
-                        targetLift = data[i][j];
-                        let alreadyMoving = liftTransition(targetLift, i , j);
-                        if(alreadyMoving) continue;
-                        return;
-                    } 
-                }
-            }
-        } else{
-            for(let i = currFloor; i < noOfFloors; i++){
-                for(let j = 0; j < data[0].length; j++){
-                    if(i == currFloor && data[i][j] !== 0){
-                        targetLift = data[i][j];
-                        liftOnSameFloor(targetLift);
-                        return;
-                    }
-                    if(data[i][j] !== 0){
-                        targetLift = data[i][j];
-                        let alreadyMoving = liftTransition(targetLift, i , j);
-                        if(alreadyMoving) continue;
-                        return;
-                    } 
-                }
-            }
-        }
-    }
+}
 
-    //if the targetLift is already on the same floor
-    function liftOnSameFloor(targetLift){
-        if(functionData[targetLift - 1] == true){
-            return;
+//to check whether we need to lookup for the elevators above or below according to button trigger
+function check(check, currFloor){
+    let targetLift;
+    if(check === 'down'){
+        for(let i = currFloor; i >= 0; i--){
+            for(let j = 0; j < data[0].length; j++){
+                if(i == currFloor && data[i][j] !== 0){
+                    targetLift = data[i][j];
+                    liftOnSameFloor(targetLift);
+                    return;
+                }
+                if(data[i][j] !== 0){
+                    targetLift = data[i][j];
+                    let alreadyMoving = liftTransition(targetLift, i , j);
+                    if(alreadyMoving) continue;
+                    return;
+                } 
+            }
         }
-        let door1 = document.getElementById(`box${targetLift}-door${1}`)
-        let door2 = document.getElementById(`box${targetLift}-door${2}`)
-        functionData[targetLift - 1] = true;
+        checkAgain('up', currFloor);
+    } else{
+        for(let i = currFloor; i < noOfFloors; i++){
+            for(let j = 0; j < data[0].length; j++){
+                if(i == currFloor && data[i][j] !== 0){
+                    targetLift = data[i][j];
+                    liftOnSameFloor(targetLift);
+                    return;
+                }
+                if(data[i][j] !== 0){
+                    targetLift = data[i][j];
+                    let alreadyMoving = liftTransition(targetLift, i , j);
+                    if(alreadyMoving) continue;
+                    return;
+                } 
+            }
+        }
+        checkAgain('down', currFloor);
+    }
+}
+
+function checkAgain(checkParam, currFloor){
+    check(checkParam,currFloor);
+}
+
+//if the targetLift is already on the same floor
+function liftOnSameFloor(targetLift){
+    if(functionData[targetLift - 1] == true){
+        return;
+    }
+    functionData[targetLift - 1] = true;
+    let transitionTime = 0;
+    doorAnimation(targetLift,transitionTime);
+}
+
+//to make the transition of the elevator
+function liftTransition(targetLift, i , j, time){
+    if(functionData[targetLift - 1] == true){
+        return true;
+    }
+    functionData[targetLift - 1] = true;
+    data[i][j] = 0;
+    data[currFloor][j] = targetLift;
+    const targetFlr = currFloor * 100;
+    var div = document.getElementById(`box-${targetLift}`);
+    let transitionTime = Math.abs(currFloor - i) * 2;
+    div.style.transitionDuration = transitionTime+ "s";
+    div.style.top = targetFlr + "px";
+    doorAnimation(targetLift,transitionTime);
+}
+
+//door animation of the elevator
+function doorAnimation(targetLift,transitionTime){
+    let door1 = document.getElementById(`box${targetLift}-door${1}`)
+    let door2 = document.getElementById(`box${targetLift}-door${2}`)
+    setTimeout(function(){
         door1.style.width = 0 + "px";
         door2.style.width = 0 + "px";
         setTimeout(function(){
@@ -168,34 +233,6 @@ function generateSimArea(noOfFloors, noOfLifts){
         }, 2500);
         setTimeout(function() {
             functionData[targetLift - 1] = false;
-        },5000)
-    }
-
-    //to make the transition of the elevator
-    function liftTransition(targetLift, i , j){
-        if(functionData[targetLift - 1] == true){
-            return true;
-        }
-        functionData[targetLift - 1] = true;
-        data[i][j] = 0;
-        data[currFloor][j] = targetLift;
-        const targetFlr = currFloor * 100;
-        var div = document.getElementById(`box-${targetLift}`);
-        let transitionTime = Math.abs(currFloor - i) * 2;
-        div.style.transitionDuration = transitionTime+ "s";
-        div.style.top = targetFlr + "px";
-        let door1 = document.getElementById(`box${targetLift}-door${1}`)
-        let door2 = document.getElementById(`box${targetLift}-door${2}`)
-        setTimeout(function(){
-            door1.style.width = 0 + "px";
-            door2.style.width = 0 + "px";
-            setTimeout(function(){
-                door1.style.width = 50 + '%';
-                door2.style.width = 50 + '%';
-            }, 2500);
-            setTimeout(function() {
-                functionData[targetLift - 1] = false;
-            },5 * 1000)
-        }, transitionTime * 1000);
-    }
+        },5 * 1000)
+    }, transitionTime * 1000);
 }
