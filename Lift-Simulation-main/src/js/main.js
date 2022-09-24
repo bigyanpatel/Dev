@@ -2,7 +2,8 @@ let noOfFloors;
 let noOfLifts;
 let data; //to store the coordinates of the lifts floors
 let functionData; //to store the lift functioning : whether it is in freeze state or working
-let currFloor; //this holds the target floor to move the lift
+let currFloor; //this holds the target floor to move the lift;
+let taskOrder = [];
 
 document.getElementById('generate').addEventListener('click',(e)=>{
     e.preventDefault();
@@ -148,11 +149,11 @@ function generateSimArea(noOfFloors, noOfLifts){
     const allButtons = document.querySelectorAll('.move');
     allButtons.forEach(btn => {
             btn.addEventListener('click', ()=>{
+                let btnSelector = btn.id;
+                taskOrder.push(btnSelector.slice(2));
                 const checkAvailable = setInterval(() => {
-                    if (checkFreeLift()) {
-                        console.log('passed');  
-                        let btnSelector = btn.id;
-                        currFloor = parseInt(btnSelector.slice(2));
+                    if (checkFreeLift()) { 
+                        currFloor = parseInt(taskOrder.shift());
                         if(btnSelector.includes("U-")){
                             check("up", currFloor);
                         } else if(btnSelector.includes("D-")){
