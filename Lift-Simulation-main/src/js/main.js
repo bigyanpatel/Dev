@@ -35,7 +35,7 @@ function generateData(noOfFloors,noOfLifts){
 
 
     data = createArray(parseInt(noOfFloors), parseInt(noOfLifts));
-    functionData = new Array(noOfLifts).fill(false);
+    functionData = new Array(parseInt(noOfLifts)).fill(false);
 
     //generating data for elevators to map their position
     for(let i = 0; i < data.length; i++){
@@ -126,6 +126,7 @@ function generateSimArea(noOfFloors, noOfLifts){
         borderLines.style.top = i * 100 + "px";
         document.getElementById('simulationArea').appendChild(borderLines);
     }
+    document.getElementById('simulationArea').classList.add('simulationAreaBorder');
 
     //sending all the elevators to the groud-floor
     for(let i = 1; i <= noOfLifts; i++){
@@ -138,19 +139,41 @@ function generateSimArea(noOfFloors, noOfLifts){
     const allButtons = document.querySelectorAll('.move');
     allButtons.forEach(btn => {
             btn.addEventListener('click', ()=>{
-                let btnSelector = btn.id;
-                currFloor = parseInt(btnSelector.slice(2));
-                if(btnSelector.includes("U-")){
-                    check("up", currFloor);
-                } else{
-                    check("down", currFloor);
-                }  
+                const checkAvailable = setInterval(() => {
+                    if (checkFreeLift()) {
+                        console.log('passed');  
+                        let btnSelector = btn.id;
+                        currFloor = parseInt(btnSelector.slice(2));
+                        if(btnSelector.includes("U-")){
+                            check("up", currFloor);
+                        } else if(btnSelector.includes("D-")){
+                            check("down", currFloor);
+                        }
+                        clearInterval(checkAvailable);
+                    }
+                }, 100);
             })
         }
     )
 }
 
-//to check whether we need to lookup for the elevators above or below according to button trigger
+function checkFreeLift(){
+    if(functionData.includes(false)){
+        return true;
+    }
+}
+
+//to check whether we need to look for the elevators above or below according to button trigger
+
+/*
+    lift Choosing criteria:-
+        - look at the location of the lifts according to the button triggered
+        - if up bottun is selected then look for freeLifts above if not available then look below it
+          and similarly for the down down button
+        - if no lift is available then wait for the lifts and as soon a lift got free
+          it should start moving to the target floor following 2nd criteria.
+*/
+
 function check(check, currFloor){
     let targetLift;
     if(check === 'down'){
@@ -205,7 +228,7 @@ function liftOnSameFloor(targetLift){
 }
 
 //to make the transition of the elevator
-function liftTransition(targetLift, i , j, time){
+function liftTransition(targetLift, i , j){
     if(functionData[targetLift - 1] == true){
         return true;
     }
