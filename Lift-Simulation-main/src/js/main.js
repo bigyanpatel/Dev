@@ -3,7 +3,7 @@ let noOfLifts;
 let data; //to store the coordinates of the lifts floors
 let functionData; //to store the lift functioning : whether it is in freeze state or working
 let currFloor; //this holds the target floor to move the lift;
-let taskOrder = [];
+let taskOrder = []; //it stores the data of event order that is lifts no. in the order they have been called
 
 document.getElementById('generate').addEventListener('click',(e)=>{
     e.preventDefault();
@@ -22,7 +22,7 @@ document.getElementById('generate').addEventListener('click',(e)=>{
 })
 
 function generateData(noOfFloors,noOfLifts){
-    //function to create 2d Matrix
+    //this function is used to generate multidimensional arrays
     function createArray(length) {
         var arr = new Array(length || 0),
             i = length;
@@ -51,7 +51,7 @@ function generateData(noOfFloors,noOfLifts){
 }
 
 function generateSimArea(noOfFloors, noOfLifts){
-    // to reset out data and ui for generating everything once again
+    // to reset ui for generating everything once again
     if (document.getElementById("controllers")) {
         document.getElementById('simulationArea').innerHTML = "";
     }
@@ -142,7 +142,6 @@ function generateSimArea(noOfFloors, noOfLifts){
     for(let i = 1; i <= noOfLifts; i++){
         var div = document.getElementById(`box-${i}`);
         div.style.top = (noOfFloors - 1) * 100 + 'px';
-        // div.style.top = 100 + '%';
     }
 
     //selecting the trigered button
@@ -167,26 +166,24 @@ function generateSimArea(noOfFloors, noOfLifts){
     )
 }
 
+// it checks whether any lift is free to call or in functional state
 function checkFreeLift(){
     if(functionData.includes(false)){
         return true;
     }
 }
 
-//to check whether we need to look for the elevators above or below according to button trigger
-
 /*
     lift Choosing criteria:-
-        - look at the location of the lifts according to the button triggered
-        - if up bottun is selected then look for freeLifts above if not available then look below it
+        - search for the closest lift that is available near the trigerred button floor
+        - if up bottun is triggered then look for freeLifts below that floor and if not available then look above it
           and similarly for the down down button
-        - if no lift is available then wait for the lifts and as soon a lift got free
+        - if no lifts are available then wait for a lift and as soon as any lift got free
           it should start moving to the target floor following 2nd criteria.
 */
-
-function check(check, currFloor){
+function check(checkParam, currFloor){
     let targetLift;
-    if(check === 'down'){
+    if(checkParam === 'down'){
         for(let i = currFloor; i >= 0; i--){
             for(let j = 0; j < data[0].length; j++){
                 if(i == currFloor && data[i][j] !== 0){
@@ -202,7 +199,7 @@ function check(check, currFloor){
                 } 
             }
         }
-        checkAgain('up', currFloor);
+        check('up', currFloor);
     } else{
         for(let i = currFloor; i < noOfFloors; i++){
             for(let j = 0; j < data[0].length; j++){
@@ -219,15 +216,11 @@ function check(check, currFloor){
                 } 
             }
         }
-        checkAgain('down', currFloor);
+        check('down', currFloor);
     }
 }
 
-function checkAgain(checkParam, currFloor){
-    check(checkParam,currFloor);
-}
-
-//if the targetLift is already on the same floor
+//if our curr floor already contain lift
 function liftOnSameFloor(targetLift){
     if(functionData[targetLift - 1] == true){
         return;
@@ -244,7 +237,7 @@ function liftOnSameFloor(targetLift){
     doorAnimation(targetLift,transitionTime);
 }
 
-//to make the transition of the elevator
+//to move the lift from the its curr position to the target floor
 function liftTransition(targetLift, i , j){
     if(functionData[targetLift - 1] == true){
         return true;
