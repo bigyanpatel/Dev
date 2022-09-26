@@ -1,23 +1,34 @@
 let noOfFloors;
 let noOfLifts;
+let maxLiftPerFloor;
 let data; //to store the coordinates of the lifts floors
 let functionData; //to store the lift functioning : whether it is in freeze state or working
 let currFloor; //this holds the target floor to move the lift;
 let taskOrder = []; //it stores the data of event order that is lifts no. in the order they have been called
+let search = 0; //just to make sure we search for the lift once only for every event
 
 document.getElementById('generate').addEventListener('click',(e)=>{
     e.preventDefault();
     noOfFloors = document.getElementById('noOfFloors').value;
     noOfLifts = document.getElementById('noOfLifts').value;
-    if(noOfLifts > 5){
-        alert("Lifts no. should not exceed 5");
+    maxLiftPerFloor = document.getElementById('liftsPerFloor').value;
+    if(noOfLifts > 5 || maxLiftPerFloor > 5){
+        alert("Sending you the Gpay no... Please pay the maintainance bill first.");
         return;
     }
     if(noOfLifts <= 0 || noOfFloors <= 0){
-        alert("Please Enter some valid numbers mann!!");
+        alert("Seems like you don't want any lift. Btw you can go via stairs...");
         return;
     }
-    generateData(noOfFloors, noOfLifts)
+    if(maxLiftPerFloor > noOfLifts){
+        alert('Pay the maintainance fees and we are more than happy to add more no. lifts.');
+        return;
+    }
+    if(maxLiftPerFloor < 1){
+        alert('We are happy to provide you free stairs. GO ahead!! Happy Climbing!');
+        return;
+    }
+    generateData(noOfFloors, noOfLifts);
     generateSimArea(noOfFloors, noOfLifts);
 })
 
@@ -26,7 +37,6 @@ function generateData(noOfFloors,noOfLifts){
     function createArray(length) {
         var arr = new Array(length || 0),
             i = length;
-
         if (arguments.length > 1) {
             var args = Array.prototype.slice.call(arguments, 1);
             while(i--) arr[length-1 - i] = createArray.apply(this, args);
@@ -63,7 +73,7 @@ function generateSimArea(noOfFloors, noOfLifts){
     document.getElementById('simulationArea').appendChild(controllers);
 
     for (let i=0;i<noOfFloors;i++) {
-        let floorNo = `Level-${noOfFloors - i - 1}`
+        let floorNo = `Level-${noOfFloors - i - 1}`;
         let currLevel = document.createElement('div');
         currLevel.setAttribute('class', 'floor-level');
 
@@ -144,19 +154,18 @@ function generateSimArea(noOfFloors, noOfLifts){
         div.style.top = (noOfFloors - 1) * 100 + 'px';
     }
 
-    //selecting the trigered button
-    const allButtons = document.querySelectorAll('.move');
-    allButtons.forEach(btn => {
+    document.querySelectorAll('.move').forEach(btn => {
             btn.addEventListener('click', ()=>{
                 let btnSelector = btn.id;
                 taskOrder.push(btnSelector.slice(2));
                 const checkAvailable = setInterval(() => {
                     if (checkFreeLift()) { 
                         currFloor = parseInt(taskOrder.shift());
+                        search = 0;
                         if(btnSelector.includes("U-")){
-                            check("up", currFloor);
+                            check("up");
                         } else if(btnSelector.includes("D-")){
-                            check("down", currFloor);
+                            check("down");
                         }
                         clearInterval(checkAvailable);
                     }
@@ -165,6 +174,8 @@ function generateSimArea(noOfFloors, noOfLifts){
         }
     )
 }
+
+
 
 // it checks whether any lift is free to call or in functional state
 function checkFreeLift(){
@@ -181,17 +192,24 @@ function checkFreeLift(){
         - if no lifts are available then wait for a lift and as soon as any lift got free
           it should start moving to the target floor following 2nd criteria.
 */
-function check(checkParam, currFloor){
+function check(checkParam){
     let targetLift;
+    if(search > 1){
+        return;
+    }
     if(checkParam === 'down'){
-        for(let i = currFloor; i >= 0; i--){
+        for(let i = currFloor; i >= 0; i--){             
             for(let j = 0; j < data[0].length; j++){
-                if(i == currFloor && data[i][j] !== 0){
+                if(i == currFloor && data[i][j] !== 0){                     //this hits the condition to open lift door of the same floor
                     targetLift = data[i][j];
-                    liftOnSameFloor(targetLift);
-                    return;
+                    if(functionData[targetLift - 1] === false){             //if lift is not in functional state then it will open the doors
+                        liftOnSameFloor(targetLift);
+                        return;
+                    } else{                                                 //else search for the next targetLift
+                        continue;
+                    }
                 }
-                if(data[i][j] !== 0){
+                if(data[i][j] !== 0 && countLiftsOnFloor() < maxLiftPerFloor){      
                     targetLift = data[i][j];
                     let alreadyMoving = liftTransition(targetLift, i , j);
                     if(alreadyMoving) continue;
@@ -199,16 +217,21 @@ function check(checkParam, currFloor){
                 } 
             }
         }
-        check('up', currFloor);
+        search++;
+        check('up');
     } else{
         for(let i = currFloor; i < noOfFloors; i++){
             for(let j = 0; j < data[0].length; j++){
                 if(i == currFloor && data[i][j] !== 0){
                     targetLift = data[i][j];
-                    liftOnSameFloor(targetLift);
-                    return;
+                    if(functionData[targetLift - 1] === false){
+                        liftOnSameFloor(targetLift);
+                        return;
+                    } else{
+                        continue;
+                    }
                 }
-                if(data[i][j] !== 0){
+                if(data[i][j] !== 0 && countLiftsOnFloor() < maxLiftPerFloor){
                     targetLift = data[i][j];
                     let alreadyMoving = liftTransition(targetLift, i , j);
                     if(alreadyMoving) continue;
@@ -216,22 +239,30 @@ function check(checkParam, currFloor){
                 } 
             }
         }
-        check('down', currFloor);
+        search++;
+        check('down');
     }
+}
+
+//returns the no. of lifts in the selected floor
+function countLiftsOnFloor(){
+    let count = 0;
+    for(let i = 0; i < noOfLifts; i++){
+        if(data[currFloor][i] !== 0){
+            count++;
+        }
+    }
+    return count;
 }
 
 //if our curr floor already contain lift
 function liftOnSameFloor(targetLift){
-    if(functionData[targetLift - 1] == true){
-        return;
-    }
     functionData[targetLift - 1] = true;
     let textEle = document.getElementById(`box-${targetLift}text`);
     textEle.innerHTML = '';
     textEle.style.textAlign = 'center';
     textEle.style.fontSize = 10 + 'px';
-    let textP = document.createTextNode(`At
-    Level-${noOfFloors - currFloor - 1}`);
+    let textP = document.createTextNode(`At Level-${noOfFloors - currFloor - 1}`);
     textEle.appendChild(textP);
     let transitionTime = 0;
     doorAnimation(targetLift,transitionTime);
@@ -254,10 +285,9 @@ function liftTransition(targetLift, i , j){
     textEle.innerHTML = '';
     textEle.style.textAlign = 'center';
     textEle.style.fontSize = 10 + 'px';
-    let textP = document.createTextNode(`Reached
-    Level-${noOfFloors - currFloor - 1}`);
+    let textP = document.createTextNode(`Reached Level-${noOfFloors - currFloor - 1}`);
     textEle.appendChild(textP);
-    doorAnimation(targetLift,transitionTime);
+    doorAnimation(targetLift, transitionTime);
 }
 
 //door animation of the elevator
