@@ -12,6 +12,12 @@
     justify-content: center;
 }
 
+.lower-part {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .profile-img{
     flex-basis: 50%;
 }
@@ -28,6 +34,7 @@
 }
 
 .profile-videos{
+    width: max-content;
     display: flex;
     flex-wrap: wrap;
 }

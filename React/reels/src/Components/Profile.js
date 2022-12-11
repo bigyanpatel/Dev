@@ -90,6 +90,7 @@ function Profile() {
                         </div>
                     </div>
                     <hr style={{marginTop:'2rem',marginBottom:'2rem'}}/>
+                    <div className='lower-part'>
                     <div className="profile-videos">
                     {
                         posts.map((post,index)=>(
@@ -131,6 +132,7 @@ function Profile() {
                         ))
                     }
                 </div>
+                    </div>
                 </div>
             </>
         }
